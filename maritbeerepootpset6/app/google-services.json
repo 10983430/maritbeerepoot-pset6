@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "89872875817",
+    "firebase_url": "https://eindprojectapp.firebaseio.com",
+    "project_id": "eindprojectapp",
+    "storage_bucket": "eindprojectapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:89872875817:android:fc8fad89c7c3e581",
+        "android_client_info": {
+          "package_name": "com.example.marit.maritbeerepoot_pset6"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "89872875817-nlm1e07ghi9uge1c3tu8lth44ctpljvv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.marit.maritbeerepoot_pset6",
+            "certificate_hash": "d12d32667986004fe1a8af31940fcfe1b57f1a01"
+          }
+        },
+        {
+          "client_id": "89872875817-ntdachg8m483prdkejsnqa2h7ktmms99.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSY0bPF1oDQ1km8no4L8GVQw5XXpwljLc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "89872875817-ntdachg8m483prdkejsnqa2h7ktmms99.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
