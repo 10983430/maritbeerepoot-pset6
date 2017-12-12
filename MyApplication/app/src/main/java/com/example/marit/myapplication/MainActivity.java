@@ -2,12 +2,14 @@ package com.example.marit.myapplication;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -23,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -32,9 +35,14 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     public ArrayList<MarvelCharacters> items = new ArrayList<>();
-    Map<String, String> map = new HashMap<String, String>();
     private CharacterAdapter adapter;
-    String id;
+    String idM;
+    String imagelinkM;
+    String imgexM;
+    String descriptionM;
+    ArrayList<String> comicsM;
+    ArrayList<String> seriesM;
+    ArrayList<String> storiesM;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,6 +79,11 @@ public class MainActivity extends AppCompatActivity {
 
                             getTextJSON(response.toString());
                             Log.d("tijd", "now");
+                            makeListView(items);
+                            ListView view = findViewById(R.id.ListView);
+                            view.invalidateViews();
+                            TextView load = findViewById(R.id.loadText);
+                            load.setVisibility(View.GONE);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -83,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         RQ.add(stringRequest);
-        makeListView(items);
         Log.d("tijd", "now1.5");
     }
 
@@ -107,15 +119,36 @@ public class MainActivity extends AppCompatActivity {
 
             // Loop through JSONArray to add the items to an Arraylist
             for (int i = 0; i < results.length(); i++) {
-
                 // Get the name, id, image path and image extention
                 String name = results.getJSONObject(i).getString("name");
                 String id = results.getJSONObject(i).getString("id");
                 String pathimg = results.getJSONObject(i).getJSONObject("thumbnail").getString("path");
                 String extention = results.getJSONObject(i).getJSONObject("thumbnail").getString("extension");
+                String description = results.getJSONObject(i).getString("description");
+
+                // Get the comics
+                ArrayList<String> comics = new ArrayList<>();
+                JSONArray comicinfo = results.getJSONObject(i).getJSONObject("comics").getJSONArray("items");
+                for (int x = 0; x < comicinfo.length(); x++) {
+                    comics.add(comicinfo.getJSONObject(x).getString("name").toString());
+                }
+
+                // Get the series
+                ArrayList<String> series = new ArrayList<>();
+                JSONArray seriesinfo = results.getJSONObject(i).getJSONObject("series").getJSONArray("items");
+                for (int x = 0; x < seriesinfo.length(); x++) {
+                    series.add(comicinfo.getJSONObject(x).getString("name").toString());
+                }
+
+                // Get the stories:
+                ArrayList<String> stories = new ArrayList<>();
+                JSONArray storiesinfo = results.getJSONObject(i).getJSONObject("stories").getJSONArray("items");
+                for (int x = 0; x < storiesinfo.length(); x++) {
+                    stories.add(storiesinfo.getJSONObject(x).getString("name").toString());
+                }
 
                 // Make a arraylist consisting of 'class' instances
-                items.add(new MarvelCharacters(name, id, pathimg, extention));
+                items.add(new MarvelCharacters(name, id, pathimg, extention, description, comics, series, stories));
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -140,19 +173,35 @@ public class MainActivity extends AppCompatActivity {
         public void onItemClick(AdapterView<?> adapterView, View view, int Int, long idl) {
             // Find the item that was clicked on
             TextView nameView = view.findViewById(R.id.nameView);
-            String name = nameView.getText().toString();
+            String nameM = nameView.getText().toString();
 
             // Get the ID of the item that was clicked on
             for (MarvelCharacters M:items) {
-                if (name.equals(M.getName())){
-                    id = M.getId();
+                if (nameM.equals(M.getName())){
+                    idM = M.getId();
+                    imagelinkM = M.getImageLink();
+                    imgexM = M.getImageExt();
+                    descriptionM = M.getDescription();
+                    comicsM = M.getComics();
+                    seriesM = M.getSeries();
+                    storiesM = M.getStories();
                     break;
                 }
             }
-
+            Log.d("commmiccc", idM + imagelinkM + imgexM + descriptionM);
+            Log.d("commmiccc", comicsM.toString());
+            Log.d("commmiccc", seriesM.toString());
+            Log.d("commmiccc", storiesM.toString());
             // Go to the character page to see the information about the clicked item
-            Intent intent = new Intent(getApplicationContext(), CharInfo.class);
-            intent.putExtra("ID", id);
+            Intent intent = new Intent(MainActivity.this, CharInfo.class);
+            MarvelCharacters character = new MarvelCharacters(nameM, idM, imagelinkM, imgexM, descriptionM, comicsM, seriesM, storiesM);
+                    //(characterobject.getName(), characterobject.getId(), characterobject.getImageLink(), characterobject.getImageExt(), characterobject.getDescription(),
+                    //characterobject.getComics(), characterobject.getSeries(), characterobject.getStories());
+            //Log.d("ittttt", character.toString());
+            Log.d("commmicc", character.getDescription());
+            //Bundle bundle = new Bundle();
+            //bundle.putSerializable("Character", (Parcelable) character);
+            intent.putExtra("Character", character);
             startActivity(intent);
 
         }

@@ -14,6 +14,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -42,7 +43,8 @@ public class CharacterAdapter extends ArrayAdapter<MarvelCharacters>{
         NameView.setText(character.getName());
         String url = character.getSquareImageURL();
         Log.d("tijd", "now2");
-        RequestQueue queue = Volley.newRequestQueue(getContext());
+        final ImageView img = view.findViewById(R.id.imageView);
+        /*RequestQueue queue = Volley.newRequestQueue(getContext());
         final ImageView img = view.findViewById(R.id.imageView);
         ImageRequest ir = new ImageRequest(url, new Response.Listener<Bitmap>() {
             @Override
@@ -50,7 +52,8 @@ public class CharacterAdapter extends ArrayAdapter<MarvelCharacters>{
                 img.setImageBitmap(response);
             }
         }, 0, 0, null, null);
-        queue.add(ir);
+        queue.add(ir);*/
+        Picasso.with(getContext()).load(url).into(img);
 
         return view;
     }
