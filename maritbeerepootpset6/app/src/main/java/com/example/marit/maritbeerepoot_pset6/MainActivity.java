@@ -46,7 +46,13 @@ public class MainActivity extends AppCompatActivity {
             String password = emailfield.getText().toString();
             switch (view.getId()){
                 case R.id.loginButton:
-                    SignIn(email, password);
+                    try{
+                        SignIn(email, password);
+                    }
+                    catch (Exception e){
+                        Toast.makeText(getApplicationContext(), "Please fill out your information", Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                    }
             }
         }
     }
@@ -64,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
     public void navRegister() {
         Intent intent = new Intent(this, Register.class);
         startActivity(intent);
-        finish();
     }
 
     @Override

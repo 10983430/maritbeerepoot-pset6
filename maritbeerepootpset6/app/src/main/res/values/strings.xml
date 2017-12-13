@@ -1,9 +1,17 @@
 <resources>
-    <string name="app_name">maritbeerepoot-pset6</string>
+    <string name="app_name">Marvel Characters</string>
+    <string name="search">SEARCH</string>
+    <string name="searchenter">Search characters..</string>
+    <string name="loading">Loading, this may take a few seconds..</string>
+    <string name="favobutton">Add to favorites</string>
+    <string name="imgdes">Character picture</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="username">Username</string>
     <string name="register">Register</string>
     <string name="registerhere">Register here!</string>
     <string name="login">Login</string>
+    <string name="MARVEL">MARVEL</string>
+    <string name="CharacterDatabase">Character Database</string>
+    <string name="database">Database</string>
 </resources>

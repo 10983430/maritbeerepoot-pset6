@@ -19,6 +19,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class Register extends AppCompatActivity {
     private FirebaseAuth mAuth;
     EditText passwordinput;
@@ -32,6 +35,9 @@ public class Register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         mAuth = FirebaseAuth.getInstance();
+
+        fbdb = FirebaseDatabase.getInstance();
+        dbref = fbdb.getReference("User");
 
         Button signup = findViewById(R.id.butRegister);
         signup.setOnClickListener(new Click());
@@ -51,13 +57,21 @@ public class Register extends AppCompatActivity {
 
     // Put user info in database when registering
     private class Click implements View.OnClickListener{
-        String email =  emailinput.getText().toString();
-        String password = passwordinput.getText().toString();
-        String username = usernameinput.getText().toString();
-        public void onClick(View view){
+        public void onClick(View view) {
+            EditText emailinput = findViewById(R.id.emailreg);
+            String email = emailinput.getText().toString();
+            EditText passwordinput = findViewById(R.id.passwordreg);
+            String password = passwordinput.getText().toString();
+            Log.d("tesssttttt", email + password);
+            try {
                 createAccount(email, password);
             }
+            catch (Exception e){
+                Toast.makeText(getApplicationContext(), "Please fill out your information", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
         }
+    }
 
     // Create user in firebase
     public void createAccount(String email, String password) {
@@ -68,6 +82,8 @@ public class Register extends AppCompatActivity {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d("Loginstatus", "createUserWithEmail:success");
                     FirebaseUser user = mAuth.getCurrentUser();
+                    String id = user.getUid();
+                    userInformation(emailinput.getText().toString(), id);
                     updateUI(user);
                 } else {
                     // If sign in fails, display a message to the user.
@@ -83,19 +99,25 @@ public class Register extends AppCompatActivity {
     }
 
     // Add additional information of the user into the database
-    public void userinfo(String email, String password, String username){
-        final DatabaseReference userRef = dbref.child(nicknametext);
-        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // Creates user if not yet exists
-                if(dataSnapshot.getValue() == null){
-                    createUser(emailtext, passwordtext,);
-                }
-                else {
-                    Toast.makeText(getContext(), "User already exists", Toast.LENGTH_SHORT).show();
-                }
-            }
+    public void userInformation(String email, String id){
+        HashMap<String, String> favorites = new HashMap<>();
+        String username = usernameinput.getText().toString();
+        userinfo user = new userinfo(id, username, favorites, email);
+        Log.d("tessstt", id.toString());
+        dbref.child("user").child(id).setValue(user);
+        /*favorites.put("tessstttt", "hahahahah");
+        try {
+            dbref.child("user").child(id).child("favorites").setValue(favorites);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        favorites.put("tessstttt2222", "hahahahah222");
+        try {
+            dbref.child("user").child(id).child("favorites").setValue(favorites);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        dbref.child("user").child(id).child("favorites").ge*/
     }
 
     public void updateUI(FirebaseUser  user) {
