@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_characterdatabase"
+        android:icon="@drawable/ic_art_track_white_24dp"
+        android:title="@string/CharacterDatabase"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_userdatabase"
+        android:icon="@drawable/ic_group_white_24dp"
+        android:title="@string/userdatabase"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_userinformation"
+        android:icon="@drawable/ic_person_outline_white_24dp"
+        android:title="@string/userinfo"
+        app:showAsAction="always"/>
+
+</menu>

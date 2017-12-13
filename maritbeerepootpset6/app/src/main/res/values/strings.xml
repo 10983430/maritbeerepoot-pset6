@@ -14,4 +14,6 @@
     <string name="MARVEL">MARVEL</string>
     <string name="CharacterDatabase">Character Database</string>
     <string name="database">Database</string>
+    <string name="userinfo">User Information</string>
+    <string name="userdatabase">User Database</string>
 </resources>

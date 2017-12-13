@@ -22,29 +22,25 @@ public class CharacterAdapter extends ArrayAdapter<MarvelCharacters>{
     }
 
     @Override
-    /*public View newView(View view, Context context, ViewGroup group) {
-        return LayoutInflater.from(context).inflate(R.layout.rowlayout, group, false);
-    }*/
-
     public View getView(int position, View view, ViewGroup group) {
+        // Get the position of the item that was clicked
         MarvelCharacters character = getItem(position);
+
+        // Inflate the layout
         if (view == null) {
             view = LayoutInflater.from(getContext()).inflate(R.layout.rowlayout, group, false);
         }
+
+        // Fill the texview with the charactername
         TextView NameView = view.findViewById(R.id.nameView);
         NameView.setText(character.getName());
+
+        // Get imageurl for setting the image
         String url = character.getSquareImageURL();
         Log.d("tijd", "now2");
+
+        // Fill the imageview with the character picture
         final ImageView img = view.findViewById(R.id.imageView);
-        /*RequestQueue queue = Volley.newRequestQueue(getContext());
-        final ImageView img = view.findViewById(R.id.imageView);
-        ImageRequest ir = new ImageRequest(url, new Response.Listener<Bitmap>() {
-            @Override
-            public void onResponse(Bitmap response) {
-                img.setImageBitmap(response);
-            }
-        }, 0, 0, null, null);
-        queue.add(ir);*/
         Picasso.with(getContext()).load(url).into(img);
 
         return view;

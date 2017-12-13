@@ -4,12 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/white"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
-    tools:context="com.example.marit.maritbeerepoot_pset6.CharacterDatabase">
-
+    android:orientation="vertical"
+    tools:context="com.example.marit.maritbeerepoot_pset6.UserDatabase">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +14,7 @@
         android:orientation="horizontal">
 
         <EditText
-            android:id="@+id/Search"
+            android:id="@+id/SearchUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -28,7 +25,7 @@
             android:textColor="@color/black" />
 
         <Button
-            android:id="@+id/searchButton"
+            android:id="@+id/searchButtonUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -36,7 +33,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/loadText"
+        android:id="@+id/loadTextUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/loading"
@@ -45,7 +42,7 @@
         android:visibility="visible" />
 
     <ListView
-        android:id="@+id/list_view"
+        android:id="@+id/list_viewUser"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

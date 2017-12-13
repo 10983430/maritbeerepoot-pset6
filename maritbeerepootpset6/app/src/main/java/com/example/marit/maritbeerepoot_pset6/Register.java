@@ -92,8 +92,6 @@ public class Register extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                     updateUI(null);
                 }
-
-                // ...
             }
         });
     }
@@ -105,19 +103,6 @@ public class Register extends AppCompatActivity {
         userinfo user = new userinfo(id, username, favorites, email);
         Log.d("tessstt", id.toString());
         dbref.child("user").child(id).setValue(user);
-        /*favorites.put("tessstttt", "hahahahah");
-        try {
-            dbref.child("user").child(id).child("favorites").setValue(favorites);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        favorites.put("tessstttt2222", "hahahahah222");
-        try {
-            dbref.child("user").child(id).child("favorites").setValue(favorites);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        dbref.child("user").child(id).child("favorites").ge*/
     }
 
     public void updateUI(FirebaseUser  user) {
