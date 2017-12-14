@@ -23,7 +23,7 @@ public class CharacterAdapter extends ArrayAdapter<MarvelCharacters>{
 
     @Override
     public View getView(int position, View view, ViewGroup group) {
-        // Get the position of the item that was clicked
+        // Get the position of the item
         MarvelCharacters character = getItem(position);
 
         // Inflate the layout

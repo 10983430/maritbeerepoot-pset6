@@ -143,4 +143,5 @@ public class MarvelCharacters implements Parcelable {
             return new MarvelCharacters[size];
         }
     };
+    // End generated code
 }

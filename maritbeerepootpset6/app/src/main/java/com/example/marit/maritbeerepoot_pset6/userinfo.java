@@ -19,4 +19,8 @@ public class userinfo {
         this.email = email;
         this.id = id;
     }
+
+    public userinfo(){
+
+    }
 }
