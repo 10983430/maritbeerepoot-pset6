@@ -76,31 +76,18 @@ public class MarvelCharacters implements Parcelable {
         return stories;
     }
 
-    // The code below is based on generated code from http://www.parcelabler.com/
+
+    /* The code below is for making using parcels possible*/
+    /* Gets all the variables of the class from the parcel */
     protected MarvelCharacters(Parcel in) {
         name = in.readString();
         id = in.readString();
         imageLink = in.readString();
         imageExt = in.readString();
         description = in.readString();
-        if (in.readByte() == 0x01) {
-            comics = new ArrayList<String>();
-            in.readList(comics, String.class.getClassLoader());
-        } else {
-            comics = null;
-        }
-        if (in.readByte() == 0x01) {
-            series = new ArrayList<String>();
-            in.readList(series, String.class.getClassLoader());
-        } else {
-            series = null;
-        }
-        if (in.readByte() == 0x01) {
-            stories = new ArrayList<String>();
-            in.readList(stories, String.class.getClassLoader());
-        } else {
-            stories = null;
-        }
+        comics = (ArrayList<String>) in.readSerializable();
+        series = (ArrayList<String>) in.readSerializable();
+        stories = (ArrayList<String>) in.readSerializable();
     }
 
     @Override
@@ -109,33 +96,19 @@ public class MarvelCharacters implements Parcelable {
     }
 
     @Override
+    /* Writes every variable in the class to the Parcel */
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
         dest.writeString(id);
         dest.writeString(imageLink);
         dest.writeString(imageExt);
         dest.writeString(description);
-        if (comics == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeList(comics);
-        }
-        if (series == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeList(series);
-        }
-        if (stories == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeList(stories);
-        }
+        dest.writeSerializable(comics);
+        dest.writeSerializable(series);
+        dest.writeSerializable(stories);
     }
 
-    @SuppressWarnings("unused")
+
     public static final Parcelable.Creator<MarvelCharacters> CREATOR = new Parcelable.Creator<MarvelCharacters>() {
         @Override
         public MarvelCharacters createFromParcel(Parcel in) {

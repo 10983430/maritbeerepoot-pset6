@@ -25,5 +25,5 @@
     <string name="CharacterComics">Character comics</string>
     <string name="CharacterSeries">Character series</string>
     <string name="CharacterStories">Character stories</string>
-    <string name="noavailable">No available</string>
+    <string name="noavailable">Not available</string>
 </resources>

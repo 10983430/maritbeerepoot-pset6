@@ -41,6 +41,7 @@ public class CharInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_char_info);
 
+
         // Get ID from intent
         Intent intent = getIntent();
         id = intent.getStringExtra("ID");
@@ -86,6 +87,15 @@ public class CharInfo extends AppCompatActivity {
         return true;
     }
 
+    protected void onSaveInstanceState (Bundle charinfo) {
+        super.onSaveInstanceState(charinfo);
+        charinfo.putParcelable("character", character);
+    }
+
+    protected void onRestoreInstanceState (Bundle charinfo) {
+        super.onRestoreInstanceState(charinfo);
+        character = charinfo.getParcelable("character");
+    }
 
     public void setTextViews() {
         // Set the charactername

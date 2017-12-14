@@ -1,6 +1,9 @@
 package com.example.marit.maritbeerepoot_pset6;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -46,6 +49,9 @@ public class CharacterDatabase extends AppCompatActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        checkConnectivity();
+
         setContentView(R.layout.activity_character_database);
 
         // Create the hash and ts needed for the url
@@ -63,6 +69,18 @@ public class CharacterDatabase extends AppCompatActivity {
         Button search = findViewById(R.id.searchButton);
         search.setOnClickListener(new Click());
 
+    }
+
+    public void checkConnectivity() {
+        Context context = getApplicationContext();
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        if (activeNetwork == null){
+            Toast.makeText(context, "You are not connected to the internet, please try again after connecting", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(this, StartUp.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     @Override
