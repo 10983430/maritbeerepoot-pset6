@@ -1,8 +1,0 @@
-<resources>
-    <string name="app_name">Marvel Characters</string>
-    <string name="search">SEARCH</string>
-    <string name="searchenter">Search characters..</string>
-    <string name="loading">Loading, this may take a few seconds..</string>
-    <string name="favobutton">Add to favorites</string>
-    <string name="imgdes">Character picture</string>
-</resources>
