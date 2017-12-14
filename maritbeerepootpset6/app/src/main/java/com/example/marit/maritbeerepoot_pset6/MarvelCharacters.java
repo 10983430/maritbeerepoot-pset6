@@ -29,6 +29,10 @@ public class MarvelCharacters implements Parcelable {
         this.stories = stories;
     }
 
+    public MarvelCharacters() {
+
+    }
+
     public String getSquareImageURL() {
         String url = imageLink + "/standard_medium." + imageExt;
         return url;

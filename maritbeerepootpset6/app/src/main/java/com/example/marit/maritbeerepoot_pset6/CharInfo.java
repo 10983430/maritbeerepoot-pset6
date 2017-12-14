@@ -29,6 +29,8 @@ public class CharInfo extends AppCompatActivity {
     DatabaseReference dbref2;
     String id;
     String charid;
+    MarvelCharacters character;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +40,7 @@ public class CharInfo extends AppCompatActivity {
         // Get ID from intent
         Intent intent = getIntent();
         id = intent.getStringExtra("ID");
-        MarvelCharacters character = getIntent().getExtras().getParcelable("Character");
-
+        character = getIntent().getExtras().getParcelable("Character");
         TextView name = findViewById(R.id.infoName);
         name.setText(character.getName());
         TextView description = findViewById(R.id.infoDescription);
@@ -89,12 +90,12 @@ public class CharInfo extends AppCompatActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         // Get the hashtable with the already added favorites
                         DataSnapshot value =  dataSnapshot.child("favorites");
-                        HashMap<String, String> favorites = (HashMap<String, String>) value.getValue();
+                        HashMap<String, MarvelCharacters> favorites = (HashMap<String, MarvelCharacters>) value.getValue();
                         if (favorites == null){
-                            favorites = new HashMap<String, String>();
+                            favorites = new HashMap<String, MarvelCharacters>();
                         }
                         // Update the values of hashtable favorites
-                        favorites.put(charid, charid);
+                        favorites.put(charid, character);
 
                         // Update the database with the updateFavorites method
                         String userid = user.getUid();

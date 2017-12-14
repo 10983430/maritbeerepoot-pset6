@@ -271,7 +271,7 @@ public class CharacterDatabase extends AppCompatActivity {
         }
     }
 
-    public String getHash() {
+    public static String getHash() {
         // Get the timestamp
         String ts = getTimestamp();
 
@@ -283,7 +283,7 @@ public class CharacterDatabase extends AppCompatActivity {
         return hash;
     }
 
-    public String getTimestamp() {
+    public static String getTimestamp() {
         // Get the timestamp
         Long timestamp = System.currentTimeMillis()/1000;
         String ts = timestamp.toString();

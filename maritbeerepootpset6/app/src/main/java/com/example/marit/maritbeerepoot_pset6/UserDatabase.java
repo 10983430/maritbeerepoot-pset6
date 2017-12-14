@@ -58,9 +58,24 @@ public class UserDatabase extends AppCompatActivity {
                     String userid = child.getKey();
                     String username = dataSnapshot.child(userid).child("username").getValue().toString();
                     String email = dataSnapshot.child(userid).child("email").getValue().toString();
-                    HashMap<String, String> favorites = (HashMap) dataSnapshot.child(userid).child(userid).getValue();
+                    DataSnapshot favoriteskeyvalue = dataSnapshot.child(userid).child("favorites");
+                    /*Log.d("HOIIIIIIIIIIIIIII", favoriteskeyvalue.toString());
+                    if (favoriteskeyvalue != null) {
+                        MarvelCharacters character = favoriteskeyvalue.getValue().getValue(MarvelCharacters.class);
+                        Log.d("GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG", character.getId().toString());
+                    }*/
+                    HashMap<String, MarvelCharacters> favorites = new HashMap<>();
+                    for (DataSnapshot x: favoriteskeyvalue.getChildren()){
+                        MarvelCharacters example = x.getValue(MarvelCharacters.class);
+                        favorites.put(example.getId().toString(), example);
+                        Log.d("GGGGGGGGGGGGGLLLL", x.toString());
+                        Log.d("GGGGGGGGGGGGGLLLL", example.getId().toString());
+                    }
+                    Log.d("GGGGGGGGGGGGGGGGGG", favoriteskeyvalue.getValue().toString());
+                    //HashMap<String, MarvelCharacters> favorites = (HashMap) favoriteskeyvalue.getValue();
                     userinfo user = new userinfo(userid, username, favorites, email);
-                    Log.d("qqqqqqqqqqqqqqqqqqqqqqqqqq", favorites.keySet().toString());
+
+                    //Log.d("qqqqqqqqqqqqqqqqqqqqqqqqqq", favorites.getValue().toString());
                     allusers.add(user);
                     putInfo(username, userid);
                     Log.d("fillernameid", username+"    "+userid);
