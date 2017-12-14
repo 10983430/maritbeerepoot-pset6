@@ -25,29 +25,85 @@
             android:text="@string/favobutton" />
 
         <TextView
+            android:id="@+id/Charactername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Charactername"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <TextView
             android:id="@+id/infoName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/Characterdescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Characterdescription"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/infoDescription"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/CharacterComics"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/CharacterComics"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/infoComics"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/CharacterSeries"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/CharacterSeries"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
 
         <TextView
             android:id="@+id/infoSeries"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/CharacterStories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/CharacterStories"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/infoStories"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:textColor="@color/black"/>
 
     </LinearLayout>
 </ScrollView>

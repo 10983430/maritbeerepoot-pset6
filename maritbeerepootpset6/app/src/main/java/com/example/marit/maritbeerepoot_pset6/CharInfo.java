@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -20,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CharInfo extends AppCompatActivity {
@@ -41,27 +45,107 @@ public class CharInfo extends AppCompatActivity {
         Intent intent = getIntent();
         id = intent.getStringExtra("ID");
         character = getIntent().getExtras().getParcelable("Character");
-        TextView name = findViewById(R.id.infoName);
-        name.setText(character.getName());
-        TextView description = findViewById(R.id.infoDescription);
-        description.setText(character.getDescription());
-        TextView comics = findViewById(R.id.infoComics);
-        comics.setText(character.getComics().toString());
-        TextView series = findViewById(R.id.infoSeries);
-        series.setText(character.getSeries().toString());
-        TextView stories = findViewById(R.id.infoStories);
-        stories.setText(character.getStories().toString());
+
+        // Set all the textviews
+        setTextViews();
+
+        // Declare the userId
         charid = character.getId();
-        Log.d("lolloll", "k"+charid.toString());
-        //getdata(id);
-        ImageView characterpic = findViewById(R.id.CharacterPic);
-        String url = character.getSquareLargeImageURL();
-        Picasso.with(getApplicationContext()).load(url).into(characterpic);
+
+        // Set Imageview
+        setImageView();
 
         Button database = findViewById(R.id.favoButton);
         database.setOnClickListener(new Click());
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.actions, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            case R.id.action_characterdatabase:
+                Intent intentCD = new Intent(this, CharacterDatabase.class);
+                startActivity(intentCD);
+                return true;
+            case R.id.action_userdatabase:
+                Intent intentUD = new Intent(this, UserDatabase.class);
+                startActivity(intentUD);
+                return true;
+            case R.id.action_userinformation:
+                Intent intentUI = new Intent(this, LoggedInUserInfo.class);
+                startActivity(intentUI);
+                return true;
+        }
+        return true;
+    }
+
+
+    public void setTextViews() {
+        // Set the charactername
+        TextView name = findViewById(R.id.infoName);
+        name.setText(character.getName());
+
+        // Set the other textviews
+        setDescription();
+        setComics();
+        setSeries();
+        setStories();
+    }
+
+    public void setDescription() {
+        // Set description
+        TextView description = findViewById(R.id.infoDescription);
+        if (character.getDescription().length() > 0) {
+            description.setText(character.getDescription());
+        }
+        else {
+            description.setText(R.string.noavailable);
+        }
+    }
+
+    public void setComics() {
+        TextView comics = findViewById(R.id.infoComics);
+        if (character.getComics().size() > 0 ) {
+            comics.setText(character.getComics().toString());
+        }
+        else {
+            comics.setText(R.string.noavailable);
+        }
+    }
+
+    public void setSeries() {
+        TextView series = findViewById(R.id.infoSeries);
+        if (character.getSeries().size() > 0 ) {
+            series.setText(character.getSeries().toString());
+        }
+        else {
+            series.setText(R.string.noavailable);
+        }
+    }
+
+    public void setStories() {
+        TextView stories = findViewById(R.id.infoStories);
+        if (character.getSeries().size() > 0) {
+            stories.setText(character.getStories().toString());
+        }
+        else {
+            stories.setText(R.string.noavailable);
+        }
+    }
+
+    public void setImageView(){
+        ImageView characterpic = findViewById(R.id.CharacterPic);
+        String url = character.getSquareLargeImageURL();
+        Picasso.with(getApplicationContext()).load(url).into(characterpic);
+    }
+
 
     public void updateFavorites(String userid, HashMap favorites) {
         // Get to the right place in the database

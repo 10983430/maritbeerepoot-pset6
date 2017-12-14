@@ -39,11 +39,25 @@ public class MainActivity extends AppCompatActivity {
         signup.setOnClickListener(new RegisterClick());
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        // Check if a logged in person is seeing this page
+        if (user != null){
+            // If there is a logged in user, send him to another activity and notify him with a toast
+            Toast.makeText(MainActivity.this, "You are already logged in!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(MainActivity.this, CharacterDatabase.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+
     private class Click implements View.OnClickListener{
         @Override
         public void onClick(View view){
             String email = emailfield.getText().toString();
-            String password = emailfield.getText().toString();
+            String password = passwordfield.getText().toString();
             switch (view.getId()){
                 case R.id.loginButton:
                     try{
@@ -72,16 +86,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
-    }
-
     public void SignIn(String email, String password) {
+        Log.d("oooooooooooooo", email + password);
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
@@ -104,10 +112,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateUI(FirebaseUser  user) {
         if (user != null) {
-            Toast.makeText(getApplicationContext(), "succes", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Succes", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(MainActivity.this, CharacterDatabase.class);
+            startActivity(intent);
+            finish();
         }
         else {
-            Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Failed, try again", Toast.LENGTH_SHORT).show();
         }
     }
 }

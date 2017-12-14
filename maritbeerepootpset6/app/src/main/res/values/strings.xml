@@ -11,9 +11,19 @@
     <string name="register">Register</string>
     <string name="registerhere">Register here!</string>
     <string name="login">Login</string>
+    <string name="logout">Logout</string>
     <string name="MARVEL">MARVEL</string>
     <string name="CharacterDatabase">Character Database</string>
     <string name="database">Database</string>
     <string name="userinfo">User Information</string>
     <string name="userdatabase">User Database</string>
+    <string name="favoriteswarning">This user did not add anything to favorites yet</string>
+    <string name="userinformation">User information</string>
+    <string name="favorites">Favorites</string>
+    <string name="Charactername">Character name</string>
+    <string name="Characterdescription">Character Description</string>
+    <string name="CharacterComics">Character comics</string>
+    <string name="CharacterSeries">Character series</string>
+    <string name="CharacterStories">Character stories</string>
+    <string name="noavailable">No available</string>
 </resources>

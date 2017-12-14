@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -74,12 +76,15 @@ public class CharacterDatabase extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
             case R.id.action_characterdatabase:
+                Toast.makeText(this, "You are already in the character database!", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_userdatabase:
-                Intent intent = new Intent(CharacterDatabase.this, UserDatabase.class);
-                startActivity(intent);
+                Intent intentUD = new Intent(CharacterDatabase.this, UserDatabase.class);
+                startActivity(intentUD);
                 return true;
             case R.id.action_userinformation:
+                Intent intentUI = new Intent(CharacterDatabase.this, LoggedInUserInfo.class);
+                startActivity(intentUI);
                 return true;
         }
         return true;
@@ -189,7 +194,6 @@ public class CharacterDatabase extends AppCompatActivity {
         adapter = new CharacterAdapter(this, item);
         Log.d("tijd", "nowwww");
         view.setAdapter(adapter);
-
     }
 
     // Configure the listener

@@ -1,5 +1,6 @@
 package com.example.marit.maritbeerepoot_pset6;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -63,12 +64,16 @@ public class Register extends AppCompatActivity {
             EditText passwordinput = findViewById(R.id.passwordreg);
             String password = passwordinput.getText().toString();
             Log.d("tesssttttt", email + password);
-            try {
-                createAccount(email, password);
+            if (passwordinput.length() >= 6) {
+                try {
+                    createAccount(email, password);
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "Please fill out your information", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
             }
-            catch (Exception e){
-                Toast.makeText(getApplicationContext(), "Please fill out your information", Toast.LENGTH_SHORT).show();
-                e.printStackTrace();
+            else{
+                Toast.makeText(getApplicationContext(), "Please make sure your passord has a length of atleast 6!", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -92,6 +97,8 @@ public class Register extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                     updateUI(null);
                 }
+                FirebaseUser currentUser = mAuth.getCurrentUser();
+                updateUI(currentUser);
             }
         });
     }
@@ -107,7 +114,10 @@ public class Register extends AppCompatActivity {
 
     public void updateUI(FirebaseUser  user) {
         if (user != null) {
-            Toast.makeText(getApplicationContext(), "succes", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Succes! You are logged in!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(Register.this, CharacterDatabase.class);
+            startActivity(intent);
+            finish();
         }
         else {
             Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_SHORT).show();

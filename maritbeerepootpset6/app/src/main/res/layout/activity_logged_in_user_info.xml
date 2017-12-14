@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.marit.maritbeerepoot_pset6.UserInformation">
+    android:background="@color/white"
+    tools:context="com.example.marit.maritbeerepoot_pset6.LoggedInUserInfo">
 
     <TextView
         android:id="@+id/UserInformationView"
@@ -17,18 +18,36 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/UsernameView"
+        android:id="@+id/usernameLogged"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:textSize="14sp" />
+        android:textColor="@color/black" />
 
     <TextView
-        android:id="@+id/UseridView"
+        android:id="@+id/useridLogged"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:textSize="14sp" />
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/useremailLogged"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black" />
+
+    <Button
+        android:id="@+id/logoutbuttonUI"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/logout"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/loginbuttonUI"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/login"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/UserFavoritesView"
@@ -39,15 +58,9 @@
         android:textSize="18sp"
         android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/FavoritesView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/favoriteswarning"
-        android:textColor="@color/black" />
-
     <ListView
-        android:id="@+id/list_viewfavorites"
+        android:id="@+id/list_viewLoggedin"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
 </LinearLayout>

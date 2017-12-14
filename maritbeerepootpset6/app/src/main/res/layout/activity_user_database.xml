@@ -8,31 +8,7 @@
     android:orientation="vertical"
     tools:context="com.example.marit.maritbeerepoot_pset6.UserDatabase">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/SearchUser"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="text"
-            android:hint="@string/searchenter"
-            android:labelFor="@id/Search"
-            android:textColor="@color/black" />
-
-        <Button
-            android:id="@+id/searchButtonUser"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/search" />
-    </LinearLayout>
-
-    <TextView
+   <TextView
         android:id="@+id/loadTextUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

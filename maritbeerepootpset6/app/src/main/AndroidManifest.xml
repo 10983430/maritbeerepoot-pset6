@@ -41,7 +41,12 @@
             android:name=".UserDatabase"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
-        <activity android:name=".UserInformation"></activity>
+        <activity android:name=".UserInformation"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".LoggedInUserInfo"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
