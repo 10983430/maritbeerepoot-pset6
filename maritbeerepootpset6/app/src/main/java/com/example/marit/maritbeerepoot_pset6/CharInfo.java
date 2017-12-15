@@ -60,8 +60,8 @@ public class CharInfo extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.actions, menu);
+        MenuInflater inflater2 = getMenuInflater();
+        inflater2.inflate(R.menu.actions, menu);
         return true;
     }
 
