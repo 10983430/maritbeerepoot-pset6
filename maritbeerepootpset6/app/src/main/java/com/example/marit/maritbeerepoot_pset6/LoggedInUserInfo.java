@@ -21,6 +21,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -36,12 +38,15 @@ public class LoggedInUserInfo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logged_in_user_info);
+        TextView UserInformationView = findViewById(R.id.UserInformationView);
+        TextView UserFavoritesView = findViewById(R.id.UserFavoritesView);
 
-        user.getUid();
         if (user == null) {
             // When there is no user logged in, there is no information to display, so show the user a login button
             Button loginbuttonUI = findViewById(R.id.loginbuttonUI);
             loginbuttonUI.setVisibility(View.VISIBLE);
+            UserFavoritesView.setVisibility(View.GONE);
+            UserInformationView.setVisibility(View.GONE);
             loginbuttonUI.setOnClickListener(new click());
         } else {
             // When logged in, this is the place where you can log out, so show the button
@@ -86,9 +91,10 @@ public class LoggedInUserInfo extends AppCompatActivity {
     private class click implements View.OnClickListener {
         public void onClick(View view) {
             switch (view.getId()) {
-                case R.id.loginButton:
+                case R.id.loginbuttonUI:
                     // Send user to login activity when pressing login
                     Intent intentlogin = new Intent(LoggedInUserInfo.this, MainActivity.class);
+                    Log.d("GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG", "sdfsdfsd");
                     startActivity(intentlogin);
                 case R.id.logoutbuttonUI:
                     // Log the user out and send him to the startup activity

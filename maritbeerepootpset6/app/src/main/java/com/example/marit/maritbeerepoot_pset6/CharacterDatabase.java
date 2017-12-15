@@ -25,6 +25,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,6 +38,7 @@ import java.util.ArrayList;
 
 
 public class CharacterDatabase extends AppCompatActivity {
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     public ArrayList<MarvelCharacters> items = new ArrayList<>();
     private CharacterAdapter adapter;
     String idM;
@@ -45,6 +49,10 @@ public class CharacterDatabase extends AppCompatActivity {
     ArrayList<String> seriesM;
     ArrayList<String> storiesM;
     ListView listView;
+    String searchinput;
+    String url_part1;
+    String url_part2;
+    String url;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,7 +68,7 @@ public class CharacterDatabase extends AppCompatActivity {
 
         // When no search request is made, fill the listview with the first 100 items from the database
         // The marvel API requires a hash, made up out of 2 keys and an timestamp
-        String url = "https://gateway.marvel.com/v1/public/characters?limit=100&ts=" + ts + "&apikey=4e73b5e53ed10cced509822314fc10a4&hash=" + hash;
+        url = "https://gateway.marvel.com/v1/public/characters?limit=100&ts=" + ts + "&apikey=4e73b5e53ed10cced509822314fc10a4&hash=" + hash;
 
         // Generate listview data
         getData(url);
@@ -82,6 +90,28 @@ public class CharacterDatabase extends AppCompatActivity {
             finish();
         }
     }
+
+    /*
+    @Override
+    protected void onSaveInstanceState (Bundle charinfo) {
+        super.onSaveInstanceState(charinfo);
+        charinfo.putString("search", searchinput);
+        charinfo.putString("urlp1", url_part1);
+        charinfo.putString("urlp2", url_part2);
+
+    }
+
+    @Override
+    protected void onRestoreInstanceState (Bundle charinfo) {
+        super.onRestoreInstanceState(charinfo);
+        searchinput = charinfo.getString("search");
+        Toast.makeText(getApplicationContext(), searchinput, Toast.LENGTH_SHORT).show();
+        url_part1 = charinfo.getString("urlp1");
+        url_part2 = charinfo.getString("urlp2");
+        String ts = getTimestamp();
+        url = url_part1 + ts + url_part2;
+        fillListWhenSearching(url);
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -157,7 +187,7 @@ public class CharacterDatabase extends AppCompatActivity {
         public void onClick(View view) {
             // Get the input of the search field
             EditText searchinputfield = findViewById(R.id.Search);
-            String searchinput = searchinputfield.getText().toString();
+            searchinput = searchinputfield.getText().toString();
 
             // Put back the start list when searchinput is empty
             if (searchinput.length() == 0) {
@@ -167,8 +197,9 @@ public class CharacterDatabase extends AppCompatActivity {
                 String ts = getTimestamp();
 
                 // Create url
-                String url = "https://gateway.marvel.com/v1/public/characters?limit=100&ts=" + ts + "&apikey=4e73b5e53ed10cced509822314fc10a4&hash=" + hash;
-
+                url_part1 = "https://gateway.marvel.com/v1/public/characters?limit=100&ts=";
+                url_part2 = "&apikey=4e73b5e53ed10cced509822314fc10a4&hash=" + hash;
+                String url = url_part1 + ts + url_part2;
                 // Call method to refill listview
                 fillListWhenSearching(url);
             }
@@ -180,8 +211,9 @@ public class CharacterDatabase extends AppCompatActivity {
                 String ts = getTimestamp();
 
                 // Create url
-                String url = "https://gateway.marvel.com/v1/public/characters?nameStartsWith=" + searchinput + "&ts=" + ts + "&apikey=4e73b5e53ed10cced509822314fc10a4&hash=" + hash;
-
+                url_part1 = "https://gateway.marvel.com/v1/public/characters?nameStartsWith=" + searchinput + "&ts=";
+                url_part2 = "&apikey=4e73b5e53ed10cced509822314fc10a4&hash=" + hash;
+                String url = url_part1 + ts + url_part2;
                 // Call method to refill listview
                 fillListWhenSearching(url);
 
