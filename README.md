@@ -36,7 +36,9 @@ Uit de peer review kwamen de volgende punten
 * Dubbele code op verschillende plekken
 * Onbereikbare code onder else statement Register pagina
 * Functie van 1 regel in UserDatabase
-* Sommige dingen kunnen nog worden omgezet in functies in de CharacterDatabase activity  
+* Sommige dingen kunnen nog worden omgezet in functies in de CharacterDatabase activity
+
+  
 Uiteraard heb ik alle punten aangepast.
 
 
