@@ -18,16 +18,12 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,22 +32,14 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
-
+/**
+ * Gets character information from the API and puts it in a list view
+ */
 public class CharacterDatabase extends AppCompatActivity {
-    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    public ArrayList<MarvelCharacters> items = new ArrayList<>();
+    private ArrayList<MarvelCharacters> items = new ArrayList<>();
     private CharacterAdapter adapter;
-    String idM;
-    String imagelinkM;
-    String imgexM;
-    String descriptionM;
-    ArrayList<String> comicsM;
-    ArrayList<String> seriesM;
-    ArrayList<String> storiesM;
+
     ListView listView;
-    String searchinput;
-    String url_part1;
-    String url_part2;
     String url;
 
     /**
@@ -82,39 +70,20 @@ public class CharacterDatabase extends AppCompatActivity {
 
     }
 
+    /**
+     * Checks if user is connected to the internet, if not it notifies the user and sends him to the startup screen
+     */
     public void checkConnectivity() {
         Context context = getApplicationContext();
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        if (activeNetwork == null){
+        if (activeNetwork == null) {
             Toast.makeText(context, "You are not connected to the internet, please try again after connecting", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(this, StartUp.class);
             startActivity(intent);
             finish();
         }
     }
-
-    /*
-    @Override
-    protected void onSaveInstanceState (Bundle charinfo) {
-        super.onSaveInstanceState(charinfo);
-        charinfo.putString("search", searchinput);
-        charinfo.putString("urlp1", url_part1);
-        charinfo.putString("urlp2", url_part2);
-
-    }
-
-    @Override
-    protected void onRestoreInstanceState (Bundle charinfo) {
-        super.onRestoreInstanceState(charinfo);
-        searchinput = charinfo.getString("search");
-        Toast.makeText(getApplicationContext(), searchinput, Toast.LENGTH_SHORT).show();
-        url_part1 = charinfo.getString("urlp1");
-        url_part2 = charinfo.getString("urlp2");
-        String ts = getTimestamp();
-        url = url_part1 + ts + url_part2;
-        fillListWhenSearching(url);
-    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -124,8 +93,8 @@ public class CharacterDatabase extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch (item.getItemId()){
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.action_characterdatabase:
                 Toast.makeText(this, "You are already in the character database!", Toast.LENGTH_SHORT).show();
                 return true;
@@ -144,7 +113,6 @@ public class CharacterDatabase extends AppCompatActivity {
     public void getData(String url) {
         // Create new queue
         RequestQueue RQ = Volley.newRequestQueue(getApplicationContext());
-        Log.d("Testttttt", "hoi");
 
         // Create new stringrequest (Volley)
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -181,18 +149,18 @@ public class CharacterDatabase extends AppCompatActivity {
         Log.d("tijd", "now1.5");
 
         // Set listener on listview
-        listView = (ListView) findViewById(R.id.list_view);
+        listView = findViewById(R.id.list_view);
         listView.setOnItemClickListener(new clicklistener());
     }
 
-    private class Click implements View.OnClickListener{
+    private class Click implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             // Get the input of the search field
             EditText searchinputfield = findViewById(R.id.Search);
-            searchinput = searchinputfield.getText().toString();
+            String searchinput = searchinputfield.getText().toString();
 
-            // Put back the start list when searchinput is empty
+            // Put back the start list when searchinput is empty, but search is clicked
             if (searchinput.length() == 0) {
 
                 // Create the hash and timestamp
@@ -200,12 +168,12 @@ public class CharacterDatabase extends AppCompatActivity {
                 String ts = getTimestamp();
 
                 // Create url
-                url_part1 = "https://gateway.marvel.com/v1/public/characters?limit=100&ts=";
-                url_part2 = "&apikey=4e73b5e53ed10cced509822314fc10a4&hash=" + hash;
-                String url = url_part1 + ts + url_part2;
+                url = "https://gateway.marvel.com/v1/public/characters?limit=100&ts=" + ts + "&apikey=4e73b5e53ed10cced509822314fc10a4&hash=" + hash;
+
                 // Call method to refill listview
                 fillListWhenSearching(url);
             }
+
             // Execute the search when the input is not empty
             else {
 
@@ -214,9 +182,7 @@ public class CharacterDatabase extends AppCompatActivity {
                 String ts = getTimestamp();
 
                 // Create url
-                url_part1 = "https://gateway.marvel.com/v1/public/characters?nameStartsWith=" + searchinput + "&ts=";
-                url_part2 = "&apikey=4e73b5e53ed10cced509822314fc10a4&hash=" + hash;
-                String url = url_part1 + ts + url_part2;
+                url = "https://gateway.marvel.com/v1/public/characters?nameStartsWith=" + searchinput + "&ts=" + ts + "&apikey=4e73b5e53ed10cced509822314fc10a4&hash=" + hash;
                 // Call method to refill listview
                 fillListWhenSearching(url);
 
@@ -240,25 +206,31 @@ public class CharacterDatabase extends AppCompatActivity {
         filledview.invalidateViews();
     }
 
+
     public void makeListView(ArrayList<MarvelCharacters> item) {
         // Link the listview and adapter
         ListView view = findViewById(R.id.list_view);
-        Log.d("tijd", "now1.7");
         adapter = new CharacterAdapter(this, item);
-        Log.d("tijd", "nowwww");
         view.setAdapter(adapter);
     }
 
-    // Configure the listener
     private class clicklistener implements AdapterView.OnItemClickListener {
-
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int Int, long idl) {
             // Find the item that was clicked on
             TextView nameView = view.findViewById(R.id.nameView);
             String nameM = nameView.getText().toString();
 
-            // Get the ID of the item that was clicked on
+            // Initialize the needed values
+            String idM = new String();
+            String imagelinkM = new String();;
+            String imgexM = new String();;
+            String descriptionM = new String();;
+            ArrayList<String> comicsM = new ArrayList<>();
+            ArrayList<String> seriesM = new ArrayList<>();
+            ArrayList<String> storiesM = new ArrayList<>();
+
+            // Get the ID of the item that was clicked on and find the information that goes with it
             for (MarvelCharacters M:items) {
                 if (nameM.equals(M.getName())){
                     idM = M.getId();
@@ -271,6 +243,7 @@ public class CharacterDatabase extends AppCompatActivity {
                     break;
                 }
             }
+
             // Go to the character page to see the information about the clicked item
             Intent intent = new Intent(CharacterDatabase.this, CharInfo.class);
             MarvelCharacters character = new MarvelCharacters(nameM, idM, imagelinkM, imgexM, descriptionM, comicsM, seriesM, storiesM);
@@ -291,6 +264,7 @@ public class CharacterDatabase extends AppCompatActivity {
 
             // Loop through JSONArray to add the items to an Arraylist
             for (int i = 0; i < results.length(); i++) {
+
                 // Get the name, id, image path and image extention
                 String name = results.getJSONObject(i).getString("name");
                 String id = results.getJSONObject(i).getString("id");
@@ -321,13 +295,15 @@ public class CharacterDatabase extends AppCompatActivity {
 
                 // Make a arraylist consisting of 'class' instances
                 items.add(new MarvelCharacters(name, id, pathimg, extention, description, comics, series, stories));
-                Log.d("proooooo", name);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Gets all the information to create the hash and hashes the string
+     */
     public static String getHash() {
         // Get the timestamp
         String ts = getTimestamp();
@@ -340,6 +316,9 @@ public class CharacterDatabase extends AppCompatActivity {
         return hash;
     }
 
+    /**
+     * Gets the timestamp (current time)
+     */
     public static String getTimestamp() {
         // Get the timestamp
         Long timestamp = System.currentTimeMillis()/1000;
@@ -347,6 +326,9 @@ public class CharacterDatabase extends AppCompatActivity {
         return ts;
     }
 
+    /**
+     * Creates the string that needs to be hashed
+     */
     public static String createUnhash(String timestamp){
         // Get the keys
         String pub = "4e73b5e53ed10cced509822314fc10a4";
@@ -357,21 +339,24 @@ public class CharacterDatabase extends AppCompatActivity {
         return unhash;
     }
 
-    // The following snippet of code is based on code from: https://www.mail-archive.com/android-beginners@googlegroups.com/msg18680.html
-    // I didn't wrote this myself, because I have no idea how MD5 works, but really wanted to use the Marvel API
-    // This function hashes the string into md5
-    public static String MD5_Hash(String s) {
-        MessageDigest m = null;
+    /**
+     * Hashes a string with an MD5 hash
+     * This method is based on code from here: https://www.mail-archive.com/android-beginners@googlegroups.com/msg18680.html
+     * I based it on this code, because I have no idea how exactly MD5 hash works, and didn't thought it would be necessary
+     * to learn about hashing for this project.
+     */
+    public static String MD5_Hash(String string) {
+        MessageDigest messageDigest = null;
         try {
             // Get de MD5 method
-            m = MessageDigest.getInstance("MD5");
+            messageDigest = MessageDigest.getInstance("MD5");
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
         // Hash the string
-        m.update(s.getBytes(),0,s.length());
-        String hash = new BigInteger(1, m.digest()).toString(16);
+        messageDigest.update(string.getBytes(),0,string.length());
+        String hash = new BigInteger(1, messageDigest.digest()).toString(16);
         return hash;
     }
-    // End snippet code
+    // End snippet code based on link
 }

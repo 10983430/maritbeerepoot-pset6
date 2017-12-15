@@ -1,6 +1,9 @@
 package com.example.marit.maritbeerepoot_pset6;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,6 +38,7 @@ public class UserDatabase extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_database);
+        checkConnectivity();
         UsernameUserid = new HashMap<>();
         getData();
     }
@@ -63,6 +67,23 @@ public class UserDatabase extends AppCompatActivity {
         }
         return true;
     }
+
+    /**
+     * Checks if user is connected to the internet, if not it notifies the user and sends him to the starup screen
+     */
+    public void checkConnectivity() {
+        Context context = getApplicationContext();
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        if (activeNetwork == null){
+            Toast.makeText(context, "You are not connected to the internet, please try again after connecting", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(this, StartUp.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+
+
 
     public void getData() {
         // Set database references
@@ -98,7 +119,7 @@ public class UserDatabase extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.d("Database error", databaseError.toString());
+                Log.d("Database or connectivity error", databaseError.toString());
             }
         });
     }
