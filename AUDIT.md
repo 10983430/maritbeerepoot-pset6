@@ -8,4 +8,6 @@ Het cijfer is gestegen van een 4 naar een 7.
 
 ### Screen
 Helaas blijf bettercodehub na het uitvallen van mijn internet hangen op "Removing repository clone", waardoor ik geen screen kon maken van de korte samenvatting. Via geschiedenis kon ik mijn resultaten nog laden, waar de zelfde informatie afgebeeld staat.
+
+
 !Bettercodehub(/doc/bettercodehub.png)
