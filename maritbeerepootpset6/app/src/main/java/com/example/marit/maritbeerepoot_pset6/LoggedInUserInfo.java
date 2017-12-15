@@ -44,8 +44,8 @@ public class LoggedInUserInfo extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.actions, menu);
+        MenuInflater inflaterLog = getMenuInflater();
+        inflaterLog.inflate(R.menu.actions, menu);
         return true;
     }
 

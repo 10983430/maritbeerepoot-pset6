@@ -45,8 +45,8 @@ public class UserDatabase extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.actions, menu);
+        MenuInflater inflaterUD = getMenuInflater();
+        inflaterUD.inflate(R.menu.actions, menu);
         return true;
     }
 

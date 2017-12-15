@@ -63,8 +63,8 @@ public class UserInformation extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.actions, menu);
+        MenuInflater inflaterUI = getMenuInflater();
+        inflaterUI.inflate(R.menu.actions, menu);
         return true;
     }
 
