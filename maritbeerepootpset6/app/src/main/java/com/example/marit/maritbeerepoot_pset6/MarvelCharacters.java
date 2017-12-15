@@ -5,7 +5,7 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 
 /**
- * Created by Marit on 11-12-2017.
+ * Contains the information about marval characters
  */
 
 public class MarvelCharacters implements Parcelable {
@@ -18,6 +18,10 @@ public class MarvelCharacters implements Parcelable {
     ArrayList<String> series;
     ArrayList<String> stories;
 
+
+    /**
+     * Constructs the class
+     */
     public MarvelCharacters(String name, String id, String imageLink, String imageExtention, String description, ArrayList<String> comics, ArrayList<String> series, ArrayList<String> stories) {
         this.name =  name;
         this.id = id;
@@ -29,21 +33,32 @@ public class MarvelCharacters implements Parcelable {
         this.stories = stories;
     }
 
+    /**
+     * Constructs the class with an default constructor (for getting information from Firebase)
+     */
     public MarvelCharacters() {
 
     }
+
+    /**
+     * Constructs a string that contains the image url for an medium size image of an character
+     * by combining the imagelink, an format and the image extension
+     */
 
     public String getSquareImageURL() {
         String url = imageLink + "/standard_medium." + imageExt;
         return url;
     }
 
+    /**
+     * Constructs a string that contains the image url for an very large size image of an character
+     * by combining the imagelink, an format and the image extension
+     */
     public String getSquareLargeImageURL() {
         String url = imageLink + "/portrait_incredible." + imageExt;
         return url;
     }
 
-    // Getters
     public String getName() {
         return name;
     }
@@ -76,9 +91,9 @@ public class MarvelCharacters implements Parcelable {
         return stories;
     }
 
-
-    /* The code below is for making using parcels possible*/
-    /* Gets all the variables of the class from the parcel */
+    /**
+     * Stores an instance from an class in a parcel
+     */
     protected MarvelCharacters(Parcel in) {
         name = in.readString();
         id = in.readString();
@@ -90,13 +105,18 @@ public class MarvelCharacters implements Parcelable {
         stories = (ArrayList<String>) in.readSerializable();
     }
 
+    /**
+     * Returns a bits. Parcebale requires a int flag, in this case its always zero.
+     */
     @Override
     public int describeContents() {
         return 0;
     }
 
+    /**
+     * Gets an instance from an class out of the parcel
+     */
     @Override
-    /* Writes every variable in the class to the Parcel */
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
         dest.writeString(id);
@@ -108,17 +128,25 @@ public class MarvelCharacters implements Parcelable {
         dest.writeSerializable(stories);
     }
 
-
+    /**
+     * Creates the parcel
+     */
     public static final Parcelable.Creator<MarvelCharacters> CREATOR = new Parcelable.Creator<MarvelCharacters>() {
+
+        /**
+         * Calls constructor and returns the object
+         */
         @Override
         public MarvelCharacters createFromParcel(Parcel in) {
             return new MarvelCharacters(in);
         }
 
+        /**
+         * Create an array with MarvelCharacters Objects in it
+         */
         @Override
         public MarvelCharacters[] newArray(int size) {
             return new MarvelCharacters[size];
         }
     };
-    // End generated code
 }

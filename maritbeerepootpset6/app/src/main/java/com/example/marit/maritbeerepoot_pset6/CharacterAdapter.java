@@ -13,7 +13,8 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 /**
- * Created by Marit on 11-12-2017.
+ * Creates a custom listview adapter for arrays with objects from
+ * the MarvelCharacters class in it
  */
 
 public class CharacterAdapter extends ArrayAdapter<MarvelCharacters>{
@@ -21,9 +22,11 @@ public class CharacterAdapter extends ArrayAdapter<MarvelCharacters>{
         super(context, 0, characters);
     }
 
+    /**
+     * Puts the information from the array into the listview
+     */
     @Override
     public View getView(int position, View view, ViewGroup group) {
-        // Get the position of the item
         MarvelCharacters character = getItem(position);
 
         // Inflate the layout

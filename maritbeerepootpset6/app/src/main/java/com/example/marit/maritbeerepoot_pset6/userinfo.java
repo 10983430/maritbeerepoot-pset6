@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by Marit on 13-12-2017.
+ * Contains the user information
  */
 
 public class userinfo {
@@ -13,6 +13,9 @@ public class userinfo {
     public HashMap favorites;
     public String email;
 
+    /**
+     * Constructs the class
+     */
     public userinfo(String id, String username, HashMap favorites, String email) {
         this.username = username;
         this.favorites = favorites;
@@ -20,6 +23,9 @@ public class userinfo {
         this.id = id;
     }
 
+    /**
+     * Constructs the class with an default constructor (for getting information from Firebase)
+     */
     public userinfo(){
 
     }
