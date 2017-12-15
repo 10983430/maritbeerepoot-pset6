@@ -3,21 +3,18 @@ package com.example.marit.maritbeerepoot_pset6;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import junit.framework.Test;
-
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ *
+ */
 public class UserInformation extends AppCompatActivity {
     public ArrayList<MarvelCharacters> usersFavorites = new ArrayList<>();
     CharacterAdapter adapter;

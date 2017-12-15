@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
-    tools:context="com.example.marit.maritbeerepoot_pset6.MainActivity">
+    tools:context="com.example.marit.maritbeerepoot_pset6.Login">
 
     <EditText
         android:id="@+id/emailField"

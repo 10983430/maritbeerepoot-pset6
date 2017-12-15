@@ -7,7 +7,6 @@ import java.util.ArrayList;
 /**
  * Contains the information about marval characters
  */
-
 public class MarvelCharacters implements Parcelable {
     private String name;
     private String id;

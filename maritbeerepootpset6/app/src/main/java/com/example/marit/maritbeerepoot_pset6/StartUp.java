@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ * Used to put listeners on the buttons of the startview and navigate to next screen
+ */
 public class StartUp extends AppCompatActivity {
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -25,20 +27,14 @@ public class StartUp extends AppCompatActivity {
         database.setOnClickListener(new Click());
     }
 
-    @Override
-    public void onBackPressed() {
-        // Do nothing, this makes sure that a person that just logged out and is directed to this activity can't
-        // go back an be logged in again. It's also the mainscreen, so there is no page before this, which
-        // makes it weird to have an onBackPressed
-    }
-
     private class Click implements View.OnClickListener {
         public void onClick(View view) {
-            switch (view.getId()){
+            switch (view.getId()) {
                 case R.id.GoDatabaseButton:
                     navDatabase();
                     break;
                 case R.id.GoLoginButton:
+                    // Check if a user is already logged in, if he is, don't allow him to go to login
                     if (user == null) {
                         navLogin();
                     }
@@ -50,15 +46,19 @@ public class StartUp extends AppCompatActivity {
         }
     }
 
-    // When the database button is clicked, go to the database acitivity
-    public void navDatabase(){
+    /**
+     * Starts the Characterbase activity
+     */
+    public void navDatabase() {
         Intent intent = new Intent(this, CharacterDatabase.class);
         startActivity(intent);
     }
 
-    // When the login button is clicked, go to the login acitivity
+    /**
+     * Starts the login activity
+     */
     public void navLogin(){
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, Login.class);
         startActivity(intent);
     }
 

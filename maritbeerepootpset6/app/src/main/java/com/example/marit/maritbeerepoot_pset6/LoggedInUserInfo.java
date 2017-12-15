@@ -21,8 +21,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -93,7 +91,7 @@ public class LoggedInUserInfo extends AppCompatActivity {
             switch (view.getId()) {
                 case R.id.loginbuttonUI:
                     // Send user to login activity when pressing login
-                    Intent intentlogin = new Intent(LoggedInUserInfo.this, MainActivity.class);
+                    Intent intentlogin = new Intent(LoggedInUserInfo.this, Login.class);
                     Log.d("GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG", "sdfsdfsd");
                     startActivity(intentlogin);
                 case R.id.logoutbuttonUI:

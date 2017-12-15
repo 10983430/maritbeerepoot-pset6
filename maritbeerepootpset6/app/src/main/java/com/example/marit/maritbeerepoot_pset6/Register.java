@@ -9,25 +9,22 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Makes it possible for a user to register and sends the register information to firebase
+ */
 public class Register extends AppCompatActivity {
     private FirebaseAuth mAuth;
-    EditText passwordinput;
+    FirebaseUser user;
     EditText emailinput;
-    EditText usernameinput;
     FirebaseDatabase fbdb;
     DatabaseReference dbref;
 
@@ -42,28 +39,25 @@ public class Register extends AppCompatActivity {
 
         Button signup = findViewById(R.id.butRegister);
         signup.setOnClickListener(new Click());
-
-        emailinput = findViewById(R.id.emailreg);
-        passwordinput = findViewById(R.id.passwordreg);
-        usernameinput = findViewById(R.id.usernamereg);
     }
 
     @Override
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
+        user = mAuth.getCurrentUser();
+        updateUI(user);
     }
 
     // Put user info in database when registering
     private class Click implements View.OnClickListener{
         public void onClick(View view) {
-            EditText emailinput = findViewById(R.id.emailreg);
-            String email = emailinput.getText().toString();
+            emailinput = findViewById(R.id.emailreg);
             EditText passwordinput = findViewById(R.id.passwordreg);
+            String email = emailinput.getText().toString();
             String password = passwordinput.getText().toString();
-            Log.d("tesssttttt", email + password);
+
+            // Length of the password must be greater than 6 for Firebase to accept it as password
             if (passwordinput.length() >= 6) {
                 try {
                     createAccount(email, password);
@@ -86,7 +80,7 @@ public class Register extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d("Loginstatus", "createUserWithEmail:success");
-                    FirebaseUser user = mAuth.getCurrentUser();
+                    user = mAuth.getCurrentUser();
                     String id = user.getUid();
                     userInformation(emailinput.getText().toString(), id);
                     updateUI(user);
@@ -106,6 +100,7 @@ public class Register extends AppCompatActivity {
     // Add additional information of the user into the database
     public void userInformation(String email, String id){
         HashMap<String, String> favorites = new HashMap<>();
+        EditText usernameinput = findViewById(R.id.usernamereg);
         String username = usernameinput.getText().toString();
         userinfo user = new userinfo(id, username, favorites, email);
         Log.d("tessstt", id.toString());

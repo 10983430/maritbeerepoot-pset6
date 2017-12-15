@@ -1,12 +1,10 @@
 package com.example.marit.maritbeerepoot_pset6;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
  * Contains the user information
  */
-
 public class userinfo {
     public String id;
     public String username;
@@ -26,7 +24,7 @@ public class userinfo {
     /**
      * Constructs the class with an default constructor (for getting information from Firebase)
      */
-    public userinfo(){
+    public userinfo() {
 
     }
 }
