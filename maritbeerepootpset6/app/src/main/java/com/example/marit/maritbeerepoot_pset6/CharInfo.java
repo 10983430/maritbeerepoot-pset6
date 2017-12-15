@@ -66,8 +66,8 @@ public class CharInfo extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch (item.getItemId()){
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.action_characterdatabase:
                 Intent intentCD = new Intent(this, CharacterDatabase.class);
                 startActivity(intentCD);

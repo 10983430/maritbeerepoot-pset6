@@ -110,6 +110,9 @@ public class CharacterDatabase extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Gets data from the API
+     */
     public void getData(String url) {
         // Create new queue
         RequestQueue RQ = Volley.newRequestQueue(getApplicationContext());
@@ -176,21 +179,30 @@ public class CharacterDatabase extends AppCompatActivity {
 
             // Execute the search when the input is not empty
             else {
-
-                // Create the hash and timestamp
-                String hash = getHash();
-                String ts = getTimestamp();
-
-                // Create url
-                url = "https://gateway.marvel.com/v1/public/characters?nameStartsWith=" + searchinput + "&ts=" + ts + "&apikey=4e73b5e53ed10cced509822314fc10a4&hash=" + hash;
-                // Call method to refill listview
-                fillListWhenSearching(url);
-
+                handleSearch(searchinput);
             }
         }
     }
 
-    public void fillListWhenSearching(String url){
+    /**
+     * Gets the hash, timestamp and url for the filling the list while searching
+     */
+    public void handleSearch(String searchinput){
+
+        // Create the hash and timestamp
+        String hash = getHash();
+        String ts = getTimestamp();
+
+        // Create url
+        url = "https://gateway.marvel.com/v1/public/characters?nameStartsWith=" + searchinput + "&ts=" + ts + "&apikey=4e73b5e53ed10cced509822314fc10a4&hash=" + hash;
+        // Call method to refill listview
+        fillListWhenSearching(url);
+    }
+
+    /**
+     * Gets the information that matches the search from the database and fills in the listview
+     */
+    public void fillListWhenSearching(String url) {
         // Let the user know the information is loading
         TextView load = findViewById(R.id.loadText);
         load.setVisibility(View.VISIBLE);
@@ -206,7 +218,9 @@ public class CharacterDatabase extends AppCompatActivity {
         filledview.invalidateViews();
     }
 
-
+    /**
+     * Creates the listview from the arralist with Marvel Characters in it
+     */
     public void makeListView(ArrayList<MarvelCharacters> item) {
         // Link the listview and adapter
         ListView view = findViewById(R.id.list_view);
@@ -253,6 +267,9 @@ public class CharacterDatabase extends AppCompatActivity {
         }
     }
 
+    /**
+     * Parses a JSON string into formats that can be used
+     */
     public void getTextJSON(String string) throws JSONException {
         try {
             // Create a new JSONObject and push the data into it
@@ -329,7 +346,7 @@ public class CharacterDatabase extends AppCompatActivity {
     /**
      * Creates the string that needs to be hashed
      */
-    public static String createUnhash(String timestamp){
+    public static String createUnhash(String timestamp) {
         // Get the keys
         String pub = "4e73b5e53ed10cced509822314fc10a4";
         String pri = "15bacc1beec22249ce5e2ad8c3c78479dc2552d6";

@@ -43,7 +43,6 @@ public class MarvelCharacters implements Parcelable {
      * Constructs a string that contains the image url for an medium size image of an character
      * by combining the imagelink, an format and the image extension
      */
-
     public String getSquareImageURL() {
         String url = imageLink + "/standard_medium." + imageExt;
         return url;
