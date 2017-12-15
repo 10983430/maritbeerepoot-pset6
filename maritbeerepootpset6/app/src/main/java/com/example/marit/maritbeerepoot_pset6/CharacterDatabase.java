@@ -37,10 +37,8 @@ import java.util.ArrayList;
  */
 public class CharacterDatabase extends AppCompatActivity {
     private ArrayList<MarvelCharacters> items = new ArrayList<>();
-    private CharacterAdapter adapter;
-
-    ListView listView;
-    String url;
+    private ListView listView;
+    private String url;
 
     /**
      * Creates a listview out of character information from the API
@@ -123,14 +121,11 @@ public class CharacterDatabase extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            // Let the user know that the data is loading by a loading message
                             // Parse JSON to arraylist
                             getTextJSON(response.toString());
-                            Log.d("tijd", "now");
                             makeListView(items);
 
-                            // Refresh the view (this makes the response time a bit shorter, because
-                            // it is done in the try, and not after)
+                            // Refresh the view (this makes the response time a bit shorter, because it directly refreshes the listview)
                             ListView view = findViewById(R.id.list_view);
                             view.invalidateViews();
 
@@ -149,7 +144,6 @@ public class CharacterDatabase extends AppCompatActivity {
             }
         });
         RQ.add(stringRequest);
-        Log.d("tijd", "now1.5");
 
         // Set listener on listview
         listView = findViewById(R.id.list_view);
@@ -175,10 +169,8 @@ public class CharacterDatabase extends AppCompatActivity {
 
                 // Call method to refill listview
                 fillListWhenSearching(url);
-            }
-
-            // Execute the search when the input is not empty
-            else {
+            } else {
+                // Execute the search when the input is not empty
                 handleSearch(searchinput);
             }
         }
@@ -223,6 +215,7 @@ public class CharacterDatabase extends AppCompatActivity {
      */
     public void makeListView(ArrayList<MarvelCharacters> item) {
         // Link the listview and adapter
+        CharacterAdapter adapter;
         ListView view = findViewById(R.id.list_view);
         adapter = new CharacterAdapter(this, item);
         view.setAdapter(adapter);

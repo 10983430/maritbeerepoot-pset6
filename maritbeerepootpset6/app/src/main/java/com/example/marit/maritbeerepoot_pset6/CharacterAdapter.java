@@ -1,6 +1,5 @@
 package com.example.marit.maritbeerepoot_pset6;
 
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

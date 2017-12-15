@@ -1,7 +1,7 @@
 # Marvel character database
 
 Deze applicatie is gemaakt als eindproject voor het vak "Native App Studio". De app maakt het mogelijk om door een database van Marvel charactes heen te zoeken en je favoriete characters aan favorieten toe te voegen. De characters hebben allemaal een informatiepagina, waar beschrijvingen staan van de characters en in welke comics, stories en series zij voorkomen. Daarnaast kunnen de favorieten van andere gebruikers ook bekeken worden in een userdatabase.
-De gebruikt moet ingelogd zijn om zelf favorieten toe te voegen, maar kan de favorieten van elke gebruiker en de characterdatabase bekijken zonder ingelogd te zijn.
+De gebruiker moet ingelogd zijn om zelf favorieten toe te voegen, maar kan de favorieten van elke gebruiker en de characterdatabase bekijken zonder ingelogd te zijn.
 
 # Eisen
 ### Firebase

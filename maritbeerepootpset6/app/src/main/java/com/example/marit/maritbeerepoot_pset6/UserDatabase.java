@@ -27,10 +27,9 @@ import java.util.HashMap;
  * Creates a listview of all the usernames (out of firebase) of the users
  */
 public class UserDatabase extends AppCompatActivity {
-    private UserdatabaseAdapter adapter;
     private HashMap<String, String> UsernameUserid;
     private HashMap<String,String> favorites;
-    private ArrayList<userinfo> allusers = new ArrayList<userinfo>();
+    private ArrayList<UserInfoClass> allusers = new ArrayList<UserInfoClass>();
     private String id;
     private String email;
 
@@ -83,8 +82,9 @@ public class UserDatabase extends AppCompatActivity {
         }
     }
 
-
-
+    /**
+     * Gets the data about the users from firebase
+     */
     public void getData() {
         // Set database references
         FirebaseDatabase fbdb = FirebaseDatabase.getInstance();
@@ -107,8 +107,8 @@ public class UserDatabase extends AppCompatActivity {
                         favorites.put(example.getId().toString(), example);
                     }
 
-                    // Create new instance of class userinfo with the gathered information
-                    userinfo user = new userinfo(userid, username, favorites, email);
+                    // Create new instance of class UserInfoClass with the gathered information
+                    UserInfoClass user = new UserInfoClass(userid, username, favorites, email);
 
                     // Add user to alluser and hashmap with names and IDs
                     allusers.add(user);
@@ -132,6 +132,7 @@ public class UserDatabase extends AppCompatActivity {
 
         // Link the listview and adapter
         ListView view = findViewById(R.id.list_viewUser);
+        UserdatabaseAdapter adapter;
         adapter = new UserdatabaseAdapter(this, users);
 
         // Remove the loading message
@@ -150,7 +151,7 @@ public class UserDatabase extends AppCompatActivity {
             TextView usernameView = view.findViewById(R.id.usernameView);
             String username = usernameView.getText().toString();
 
-            // Loop trough all of the users to get the user matching the username and get his information
+            // Loop trough all of the users to get the user matching the username/clicked item and get his information
             for (int i = 0; i < allusers.size(); i++) {
                 if (allusers.get(i).username.toString().equals(username)){
                     id = allusers.get(i).id.toString();

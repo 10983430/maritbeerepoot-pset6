@@ -26,13 +26,11 @@ import java.util.HashMap;
  * Converts the parceable to UI and makes it possible for a user to add character to favorites
  */
 public class CharInfo extends AppCompatActivity {
-    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    FirebaseDatabase fbdb;
-    DatabaseReference dbref;
-    DatabaseReference dbref2;
-    String id;
-    String charid;
-    MarvelCharacters character;
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private FirebaseDatabase fbdb;
+    private DatabaseReference dbref;
+    private String charid;
+    private MarvelCharacters character;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +39,7 @@ public class CharInfo extends AppCompatActivity {
 
         // Get parceable from intent
         Intent intent = getIntent();
-        id = intent.getStringExtra("ID");
+        String id = intent.getStringExtra("ID");
         character = getIntent().getExtras().getParcelable("Character");
 
         // Set all the textviews
@@ -166,10 +164,10 @@ public class CharInfo extends AppCompatActivity {
     public void updateFavorites(String userid, HashMap favorites) {
         // Get to the right place in the database
         fbdb = FirebaseDatabase.getInstance();
-        dbref2 = fbdb.getReference("User");
+        dbref = fbdb.getReference("User");
         try {
             // Change the value of favorites to a list with the new item
-            dbref2.child("user").child(userid).child("favorites").setValue(favorites);
+            dbref.child("user").child(userid).child("favorites").setValue(favorites);
         } catch (Exception e) {
             e.printStackTrace();
         }

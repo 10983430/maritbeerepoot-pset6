@@ -28,10 +28,9 @@ import java.util.HashMap;
  * Get user information from Firebase and shows this in combination with a logout button the the user. When user is not logged in it shows a login button.
  */
 public class LoggedInUserInfo extends AppCompatActivity {
-    FirebaseUser user;
+    private FirebaseUser user;
     public ArrayList<MarvelCharacters> usersFavorites = new ArrayList<>();
-    String userid;
-    CharacterAdapter adapter;
+    private String userid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,7 +150,7 @@ public class LoggedInUserInfo extends AppCompatActivity {
                 favorites.put(character.getId().toString(), character);
             }
             // Create new instance of class user and send it to the handle information methode
-            userinfo user = new userinfo(userid, username, favorites, email);
+            UserInfoClass user = new UserInfoClass(userid, username, favorites, email);
             handleUserInfo(user);
         }
 
@@ -164,9 +163,9 @@ public class LoggedInUserInfo extends AppCompatActivity {
     }
 
     /**
-     * Uses the data from the class userinfo to fill out the information about the user
+     * Uses the data from the class UserInfoClass to fill out the information about the user
      */
-    public void handleUserInfo(userinfo user){
+    public void handleUserInfo(UserInfoClass user){
         // Set the textviews
         String username = user.username;
         TextView usernameLogged = findViewById(R.id.usernameLogged);
@@ -193,6 +192,7 @@ public class LoggedInUserInfo extends AppCompatActivity {
      */
     public void makeListView(ArrayList<MarvelCharacters> item) {
         // Link the listview and adapter
+        CharacterAdapter adapter;
         ListView view = findViewById(R.id.list_viewLoggedin);
         adapter = new CharacterAdapter(this, item);
         view.setAdapter(adapter);

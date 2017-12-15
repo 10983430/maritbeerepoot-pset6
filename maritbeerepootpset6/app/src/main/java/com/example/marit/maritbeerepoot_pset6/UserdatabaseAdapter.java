@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class UserdatabaseAdapter extends ArrayAdapter<String> {
     private Context context;
     private ArrayList<String> user;
+
     public UserdatabaseAdapter(Context context, ArrayList<String> listofusers) {
         super(context, 0, listofusers);
         this.context = context;

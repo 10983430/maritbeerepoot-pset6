@@ -13,9 +13,9 @@ public class MarvelCharacters implements Parcelable {
     private String imageLink;
     private String imageExt;
     private String description;
-    ArrayList<String> comics;
-    ArrayList<String> series;
-    ArrayList<String> stories;
+    private ArrayList<String> comics;
+    private ArrayList<String> series;
+    private ArrayList<String> stories;
 
 
     /**
@@ -90,7 +90,7 @@ public class MarvelCharacters implements Parcelable {
     }
 
     /**
-     * Stores an instance from an class in a parcel
+     * Stores an instance from an class in a parcel, so a class can be passed to the next activity with an parcel
      */
     protected MarvelCharacters(Parcel in) {
         name = in.readString();

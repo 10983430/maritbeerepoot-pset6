@@ -5,7 +5,7 @@ import java.util.HashMap;
 /**
  * Contains the user information
  */
-public class userinfo {
+public class UserInfoClass {
     public String id;
     public String username;
     public HashMap favorites;
@@ -14,7 +14,7 @@ public class userinfo {
     /**
      * Constructs the class
      */
-    public userinfo(String id, String username, HashMap favorites, String email) {
+    public UserInfoClass(String id, String username, HashMap favorites, String email) {
         this.username = username;
         this.favorites = favorites;
         this.email = email;
@@ -24,7 +24,7 @@ public class userinfo {
     /**
      * Constructs the class with an default constructor (for getting information from Firebase)
      */
-    public userinfo() {
+    public UserInfoClass() {
 
     }
 }

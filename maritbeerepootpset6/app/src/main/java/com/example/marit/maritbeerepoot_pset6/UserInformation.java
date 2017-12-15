@@ -17,7 +17,6 @@ import java.util.HashMap;
  */
 public class UserInformation extends AppCompatActivity {
     public ArrayList<MarvelCharacters> usersFavorites = new ArrayList<>();
-    CharacterAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,13 +29,7 @@ public class UserInformation extends AppCompatActivity {
         String username = intentextra.getString("username");
         String id = intentextra.getString("id");
 
-
-        // Display the username and the userid
-        TextView usernameholder = findViewById(R.id.UsernameView);
-        TextView useridholder = findViewById(R.id.UseridView);
-        usernameholder.setText(getString(R.string.usernameplaceholder) + username);
-        useridholder.setText(getString(R.string.useridplaceholder) + id);
-
+        setViews(username, id);
 
         // Try to make a listview by getting the favorites
         // When a user didn't add any favorites yet, the hashmap will be a null object
@@ -57,7 +50,6 @@ public class UserInformation extends AppCompatActivity {
                 // Make the list view
                 makeListView(usersFavorites);
             }
-
         }
     }
 
@@ -88,10 +80,22 @@ public class UserInformation extends AppCompatActivity {
     }
 
     /**
+     * Fills the textviews with the id and username
+     */
+    public void setViews(String username, String id) {
+        // Display the username and the userid
+        TextView usernameholder = findViewById(R.id.UsernameView);
+        TextView useridholder = findViewById(R.id.UseridView);
+        usernameholder.setText(getString(R.string.usernameplaceholder) + username);
+        useridholder.setText(getString(R.string.useridplaceholder) + id);
+    }
+
+    /**
      * Creates listview from arraylist
      */
     public void makeListView(ArrayList<MarvelCharacters> item) {
-        // Link the listview and adapter
+        // Link the listview and
+        CharacterAdapter adapter;
         ListView view = findViewById(R.id.list_viewfavorites);
         adapter = new CharacterAdapter(this, item);
         view.setAdapter(adapter);

@@ -23,8 +23,7 @@ import java.util.HashMap;
  */
 public class Register extends AppCompatActivity {
     private FirebaseAuth mAuth;
-    FirebaseUser user;
-    EditText emailinput;
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +47,7 @@ public class Register extends AppCompatActivity {
     private class Click implements View.OnClickListener {
         public void onClick(View view) {
             // Get email and password from the inputfields
-            emailinput = findViewById(R.id.emailreg);
+            EditText emailinput = findViewById(R.id.emailreg);
             EditText passwordinput = findViewById(R.id.passwordreg);
             String email = emailinput.getText().toString();
             String password = passwordinput.getText().toString();
@@ -83,6 +82,7 @@ public class Register extends AppCompatActivity {
                     // Add the username to Firebase and update UI
                     user = mAuth.getCurrentUser();
                     String id = user.getUid();
+                    EditText emailinput = findViewById(R.id.emailreg);
                     userInformation(emailinput.getText().toString(), id);
                     updateUI(user);
                 }
@@ -107,8 +107,8 @@ public class Register extends AppCompatActivity {
         EditText usernameinput = findViewById(R.id.usernamereg);
         String username = usernameinput.getText().toString();
 
-        // Create a new instance of the class userinfo for an user and insert into Firebase
-        userinfo user = new userinfo(id, username, favorites, email);
+        // Create a new instance of the class UserInfoClass for an user and insert into Firebase
+        UserInfoClass user = new UserInfoClass(id, username, favorites, email);
         FirebaseDatabase fbdb = FirebaseDatabase.getInstance();
         DatabaseReference dbref = fbdb.getReference("User");
         dbref.child("user").child(id).setValue(user);

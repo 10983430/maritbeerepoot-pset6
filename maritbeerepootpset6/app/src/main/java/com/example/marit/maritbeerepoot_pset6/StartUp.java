@@ -13,8 +13,6 @@ import com.google.firebase.auth.FirebaseUser;
  * Used to put listeners on the buttons of the startview and navigate to next screen
  */
 public class StartUp extends AppCompatActivity {
-    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +33,7 @@ public class StartUp extends AppCompatActivity {
                     break;
                 case R.id.GoLoginButton:
                     // Check if a user is already logged in, if he is, don't allow him to go to login
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     if (user == null) {
                         navLogin();
                     }
