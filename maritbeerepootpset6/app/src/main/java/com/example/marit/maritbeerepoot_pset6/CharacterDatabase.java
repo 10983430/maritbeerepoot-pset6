@@ -292,23 +292,17 @@ public class CharacterDatabase extends AppCompatActivity {
                 // Get the comics
                 ArrayList<String> comics = new ArrayList<>();
                 JSONArray comicinfo = results.getJSONObject(i).getJSONObject("comics").getJSONArray("items");
-                for (int x = 0; x < comicinfo.length(); x++) {
-                    comics.add(comicinfo.getJSONObject(x).getString("name").toString());
-                }
+                comics = makeArrayList(comicinfo);
 
                 // Get the series
                 ArrayList<String> series = new ArrayList<>();
                 JSONArray seriesinfo = results.getJSONObject(i).getJSONObject("series").getJSONArray("items");
-                for (int x = 0; x < seriesinfo.length(); x++) {
-                    series.add(comicinfo.getJSONObject(x).getString("name").toString());
-                }
+                series = makeArrayList(seriesinfo);
 
                 // Get the stories:
                 ArrayList<String> stories = new ArrayList<>();
                 JSONArray storiesinfo = results.getJSONObject(i).getJSONObject("stories").getJSONArray("items");
-                for (int x = 0; x < storiesinfo.length(); x++) {
-                    stories.add(storiesinfo.getJSONObject(x).getString("name").toString());
-                }
+                stories = makeArrayList(storiesinfo);
 
                 // Make a arraylist consisting of 'class' instances
                 items.add(new MarvelCharacters(name, id, pathimg, extention, description, comics, series, stories));
@@ -317,6 +311,22 @@ public class CharacterDatabase extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Creates an ArrayList from an JSONarray
+     */
+    public ArrayList<String> makeArrayList(JSONArray item) {
+        ArrayList<String> arrayList = new ArrayList<>();
+        for (int x = 0; x < item.length(); x++) {
+            try {
+                arrayList.add(item.getJSONObject(x).getString("name").toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return arrayList;
+    }
+
 
     /**
      * Gets all the information to create the hash and hashes the string
