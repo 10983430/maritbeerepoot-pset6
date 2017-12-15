@@ -38,7 +38,7 @@ public class LoggedInUserInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logged_in_user_info);
         user = FirebaseAuth.getInstance().getCurrentUser();
-        updataUI();
+        updateUI();
     }
 
 
@@ -71,28 +71,39 @@ public class LoggedInUserInfo extends AppCompatActivity {
     /**
      * Updates the database UI on whether a user is logged in or not
      */
-    public void updataUI() {
+    public void updateUI() {
         if (user == null) {
-            // When there is no user logged in, there is no information to display, so show the user a login button and hide the views
-            TextView UserInformationView = findViewById(R.id.UserInformationView);
-            TextView UserFavoritesView = findViewById(R.id.UserFavoritesView);
-            Button loginbuttonUI = findViewById(R.id.loginbuttonUI);
-
-            UserInformationView.setVisibility(View.GONE);
-            UserFavoritesView.setVisibility(View.GONE);
-            loginbuttonUI.setVisibility(View.VISIBLE);
-
-            loginbuttonUI.setOnClickListener(new click());
+            updateWhenLoggedIn();
         } else {
-            // When logged in, this is the place where you can log out, so show the button
-            Button logoutbuttonUI = findViewById(R.id.logoutbuttonUI);
-            logoutbuttonUI.setVisibility(View.VISIBLE);
-            logoutbuttonUI.setOnClickListener(new click());
-
-            // Also when a user is logged in, display the userinformation here
-            userid = user.getUid();
-            getData();
+            updateNotLoggedIn();
         }
+    }
+
+    /**
+     * Hides and pops up information when the user is logged in
+     */
+    public void updateWhenLoggedIn() {
+        // When there is no user logged in, there is no information to display, so show the user a login button and hide the views
+        TextView UserInformationView = findViewById(R.id.UserInformationView);
+        TextView UserFavoritesView = findViewById(R.id.UserFavoritesView);
+        Button loginbuttonUI = findViewById(R.id.loginbuttonUI);
+
+        UserInformationView.setVisibility(View.GONE);
+        UserFavoritesView.setVisibility(View.GONE);
+        loginbuttonUI.setVisibility(View.VISIBLE);
+
+        loginbuttonUI.setOnClickListener(new click());
+    }
+
+    public void updateNotLoggedIn() {
+        // When logged in, this is the place where you can log out, so show the button
+        Button logoutbuttonUI = findViewById(R.id.logoutbuttonUI);
+        logoutbuttonUI.setVisibility(View.VISIBLE);
+        logoutbuttonUI.setOnClickListener(new click());
+
+        // Also when a user is logged in, display the userinformation here
+        userid = user.getUid();
+        getData();
     }
 
     private class click implements View.OnClickListener {
