@@ -24,11 +24,12 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Get user information from Firebase and shows this in combination with a logout button the the user. When user is not logged in it shows a login button.
+ */
 public class LoggedInUserInfo extends AppCompatActivity {
-    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    FirebaseUser user;
     public ArrayList<MarvelCharacters> usersFavorites = new ArrayList<>();
-    FirebaseDatabase fbdb;
-    DatabaseReference dbref;
     String userid;
     CharacterAdapter adapter;
 
@@ -36,26 +37,8 @@ public class LoggedInUserInfo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logged_in_user_info);
-        TextView UserInformationView = findViewById(R.id.UserInformationView);
-        TextView UserFavoritesView = findViewById(R.id.UserFavoritesView);
-
-        if (user == null) {
-            // When there is no user logged in, there is no information to display, so show the user a login button
-            Button loginbuttonUI = findViewById(R.id.loginbuttonUI);
-            loginbuttonUI.setVisibility(View.VISIBLE);
-            UserFavoritesView.setVisibility(View.GONE);
-            UserInformationView.setVisibility(View.GONE);
-            loginbuttonUI.setOnClickListener(new click());
-        } else {
-            // When logged in, this is the place where you can log out, so show the button
-            Button logoutbuttonUI = findViewById(R.id.logoutbuttonUI);
-            logoutbuttonUI.setVisibility(View.VISIBLE);
-            logoutbuttonUI.setOnClickListener(new click());
-
-            // Also when a user is logged in, display the userinformation here
-            userid = user.getUid();
-            getData();
-        }
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        updataUI();
     }
 
 
@@ -85,6 +68,32 @@ public class LoggedInUserInfo extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Updates the database UI on whether a user is logged in or not
+     */
+    public void updataUI() {
+        if (user == null) {
+            // When there is no user logged in, there is no information to display, so show the user a login button and hide the views
+            TextView UserInformationView = findViewById(R.id.UserInformationView);
+            TextView UserFavoritesView = findViewById(R.id.UserFavoritesView);
+            Button loginbuttonUI = findViewById(R.id.loginbuttonUI);
+
+            UserInformationView.setVisibility(View.GONE);
+            UserFavoritesView.setVisibility(View.GONE);
+            loginbuttonUI.setVisibility(View.VISIBLE);
+
+            loginbuttonUI.setOnClickListener(new click());
+        } else {
+            // When logged in, this is the place where you can log out, so show the button
+            Button logoutbuttonUI = findViewById(R.id.logoutbuttonUI);
+            logoutbuttonUI.setVisibility(View.VISIBLE);
+            logoutbuttonUI.setOnClickListener(new click());
+
+            // Also when a user is logged in, display the userinformation here
+            userid = user.getUid();
+            getData();
+        }
+    }
 
     private class click implements View.OnClickListener {
         public void onClick(View view) {
@@ -92,10 +101,11 @@ public class LoggedInUserInfo extends AppCompatActivity {
                 case R.id.loginbuttonUI:
                     // Send user to login activity when pressing login
                     Intent intentlogin = new Intent(LoggedInUserInfo.this, Login.class);
-                    Log.d("GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG", "sdfsdfsd");
                     startActivity(intentlogin);
+                    break;
+
                 case R.id.logoutbuttonUI:
-                    // Log the user out and send him to the startup activity
+                    // Sign out the user and send him to the startup activity
                     FirebaseAuth.getInstance().signOut();
                     Intent intent = new Intent(LoggedInUserInfo.this, StartUp.class);
                     startActivity(intent);
@@ -106,14 +116,15 @@ public class LoggedInUserInfo extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * Gets user data from Firebase
+     */
     public void getData() {
-
         // Set the database references
-        fbdb = FirebaseDatabase.getInstance();
-        dbref = fbdb.getReference("User/user/"+userid);
+        FirebaseDatabase fbdb = FirebaseDatabase.getInstance();
+        DatabaseReference dbref = fbdb.getReference("User/user/"+userid);
 
-        // Get information from firebase
+        // Get information from firebase with an listener
         dbref.addListenerForSingleValueEvent(new ValueEventListener() {
         @Override
         public void onDataChange (DataSnapshot dataSnapshot){
@@ -128,30 +139,32 @@ public class LoggedInUserInfo extends AppCompatActivity {
                 MarvelCharacters character = shot.getValue(MarvelCharacters.class);
                 favorites.put(character.getId().toString(), character);
             }
-            // Create new instance of class user
+            // Create new instance of class user and send it to the handle information methode
             userinfo user = new userinfo(userid, username, favorites, email);
             handleUserInfo(user);
         }
 
         @Override
-        // Log error
         public void onCancelled(DatabaseError databaseError) {
+            // Log error
             Log.d("Database error", databaseError.toString());
             }
         });
     }
 
-
+    /**
+     * Uses the data from the class userinfo to fill out the information about the user
+     */
     public void handleUserInfo(userinfo user){
         // Set the textviews
         String username = user.username;
         TextView usernameLogged = findViewById(R.id.usernameLogged);
-        usernameLogged.setText("Username = " + username);
+        usernameLogged.setText(getString(R.string.usernameplaceholder) + username);
         String email = user.email;
         TextView useremailLogged = findViewById(R.id.useremailLogged);
-        useremailLogged.setText("Email = "+ email + " (Only you can see your email!)");
+        useremailLogged.setText(getString(R.string.useremailplaceholder)+ email + " (Only you can see your email!)");
         TextView useridLogged = findViewById(R.id.useridLogged);
-        useridLogged.setText("Userid = " + userid);
+        useridLogged.setText(getString(R.string.useridplaceholder) + userid);
 
         // Convert de favorites hashtable into an Arraylist
         HashMap<String, MarvelCharacters> favorites = user.favorites;
@@ -164,11 +177,14 @@ public class LoggedInUserInfo extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * Creates listview from arraylist
+     */
     public void makeListView(ArrayList<MarvelCharacters> item) {
         // Link the listview and adapter
         ListView view = findViewById(R.id.list_viewLoggedin);
         adapter = new CharacterAdapter(this, item);
         view.setAdapter(adapter);
     }
+
 }

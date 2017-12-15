@@ -25,17 +25,13 @@ public class Register extends AppCompatActivity {
     private FirebaseAuth mAuth;
     FirebaseUser user;
     EditText emailinput;
-    FirebaseDatabase fbdb;
-    DatabaseReference dbref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        mAuth = FirebaseAuth.getInstance();
 
-        fbdb = FirebaseDatabase.getInstance();
-        dbref = fbdb.getReference("User");
+        mAuth = FirebaseAuth.getInstance();
 
         Button signup = findViewById(R.id.butRegister);
         signup.setOnClickListener(new Click());
@@ -44,14 +40,14 @@ public class Register extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
+        // Update UI on state of user
         user = mAuth.getCurrentUser();
         updateUI(user);
     }
 
-    // Put user info in database when registering
-    private class Click implements View.OnClickListener{
+    private class Click implements View.OnClickListener {
         public void onClick(View view) {
+            // Get email and password from the inputfields
             emailinput = findViewById(R.id.emailreg);
             EditText passwordinput = findViewById(R.id.passwordreg);
             String email = emailinput.getText().toString();
@@ -62,17 +58,20 @@ public class Register extends AppCompatActivity {
                 try {
                     createAccount(email, password);
                 } catch (Exception e) {
+                    // When createAccount has no input, it throws an error so this lets the user know that no information was filled out
                     Toast.makeText(getApplicationContext(), "Please fill out your information", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
             }
-            else{
-                Toast.makeText(getApplicationContext(), "Please make sure your passord has a length of atleast 6!", Toast.LENGTH_SHORT).show();
+            else {
+                Toast.makeText(getApplicationContext(), "Please make sure your password has a length of atleast 6!", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    // Create user in firebase
+    /**
+     * Creates user in firebase
+     */
     public void createAccount(String email, String password) {
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
@@ -80,33 +79,44 @@ public class Register extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d("Loginstatus", "createUserWithEmail:success");
+
+                    // Add the username to Firebase and update UI
                     user = mAuth.getCurrentUser();
                     String id = user.getUid();
                     userInformation(emailinput.getText().toString(), id);
                     updateUI(user);
-                } else {
+                }
+                else {
                     // If sign in fails, display a message to the user.
                     Log.w("Loginstatus", "createUserWithEmail:failure", task.getException());
-                    Toast.makeText(getApplicationContext(), "Authentication failed.",
-                            Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
                     updateUI(null);
                 }
-                FirebaseUser currentUser = mAuth.getCurrentUser();
-                updateUI(currentUser);
             }
         });
     }
 
-    // Add additional information of the user into the database
+    /**
+     * Adds additional information of the user into the database
+     */
     public void userInformation(String email, String id){
+        // Create an empty hashmap for the favorites, to use when adding items
         HashMap<String, String> favorites = new HashMap<>();
+
+        // Get username
         EditText usernameinput = findViewById(R.id.usernamereg);
         String username = usernameinput.getText().toString();
+
+        // Create a new instance of the class userinfo for an user and insert into Firebase
         userinfo user = new userinfo(id, username, favorites, email);
-        Log.d("tessstt", id.toString());
+        FirebaseDatabase fbdb = FirebaseDatabase.getInstance();
+        DatabaseReference dbref = fbdb.getReference("User");
         dbref.child("user").child(id).setValue(user);
     }
 
+    /**
+     * Updates the UI when the registration was successful and otherwise toast to try again
+     */
     public void updateUI(FirebaseUser  user) {
         if (user != null) {
             Toast.makeText(getApplicationContext(), "Succes! You are logged in!", Toast.LENGTH_SHORT).show();
@@ -115,7 +125,7 @@ public class Register extends AppCompatActivity {
             finish();
         }
         else {
-            Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Failed, try again", Toast.LENGTH_SHORT).show();
         }
     }
 }

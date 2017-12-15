@@ -1,7 +1,6 @@
 package com.example.marit.maritbeerepoot_pset6;
 
 import android.content.Intent;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,39 +9,34 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
+/**
+ * Creates a listview of all the usernames (out of firebase) of the users
+ */
 public class UserDatabase extends AppCompatActivity {
     private UserdatabaseAdapter adapter;
-    FirebaseDatabase fbdb;
-    DatabaseReference dbref;
-    HashMap<String, String> UsernameUserid;
-    ArrayList<userinfo> allusers = new ArrayList<userinfo>();
-    String id;
-    String email;
-    HashMap<String,String> favorites;
-
+    private HashMap<String, String> UsernameUserid;
+    private HashMap<String,String> favorites;
+    private ArrayList<userinfo> allusers = new ArrayList<userinfo>();
+    private String id;
+    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_database);
-        UsernameUserid = new HashMap<String, String>();
-        HashMap data = getData();
-        Log.d("filler", UsernameUserid.toString());
+        UsernameUserid = new HashMap<>();
+        getData();
     }
 
     @Override
@@ -53,8 +47,8 @@ public class UserDatabase extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch (item.getItemId()){
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.action_characterdatabase:
                 Intent intentUD = new Intent(UserDatabase.this, CharacterDatabase.class);
                 startActivity(intentUD);
@@ -70,28 +64,36 @@ public class UserDatabase extends AppCompatActivity {
         return true;
     }
 
-    public HashMap<String, String> getData() {
-        fbdb = FirebaseDatabase.getInstance();
-        dbref = fbdb.getReference("User/user/");
+    public void getData() {
+        // Set database references
+        FirebaseDatabase fbdb = FirebaseDatabase.getInstance();
+        DatabaseReference dbref = fbdb.getReference("User/user/");
 
         dbref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                // Loop through firebase to get the needed information
                 for (DataSnapshot child:dataSnapshot.getChildren()){
                     String userid = child.getKey();
                     String username = dataSnapshot.child(userid).child("username").getValue().toString();
                     String email = dataSnapshot.child(userid).child("email").getValue().toString();
+
+                    // Get favorites
                     DataSnapshot favoriteskeyvalue = dataSnapshot.child(userid).child("favorites");
                     HashMap<String, MarvelCharacters> favorites = new HashMap<>();
                     for (DataSnapshot x: favoriteskeyvalue.getChildren()){
                         MarvelCharacters example = x.getValue(MarvelCharacters.class);
                         favorites.put(example.getId().toString(), example);
                     }
+
+                    // Create new instance of class userinfo with the gathered information
                     userinfo user = new userinfo(userid, username, favorites, email);
+
+                    // Add user to alluser and hashmap with names and IDs
                     allusers.add(user);
-                    putInfo(username, userid);
+                    UsernameUserid.put(username,userid);
                 }
-                makeArrayList(UsernameUserid);
+                makeListView(UsernameUserid);
             }
 
             @Override
@@ -99,22 +101,17 @@ public class UserDatabase extends AppCompatActivity {
                 Log.d("Database error", databaseError.toString());
             }
         });
-        return UsernameUserid;
     }
 
-    public void putInfo(String username, String userid) {
-        UsernameUserid.put(username,userid);
-    }
-
-    public void makeArrayList(HashMap hashMap){
+    /**
+     * Creates listview from arraylist by first getting the needed information from the hasmap
+     */
+    public void makeListView(HashMap hashMap) {
         ArrayList<String> users = new ArrayList<String>(hashMap.keySet());
-        makeListView(users);
-    }
 
-    public void makeListView(ArrayList<String> item) {
         // Link the listview and adapter
         ListView view = findViewById(R.id.list_viewUser);
-        adapter = new UserdatabaseAdapter(this, item);
+        adapter = new UserdatabaseAdapter(this, users);
 
         // Remove the loading message
         TextView LoadingMessage = findViewById(R.id.loadTextUser);
@@ -126,13 +123,14 @@ public class UserDatabase extends AppCompatActivity {
     }
 
     private class clicklistener implements AdapterView.OnItemClickListener {
-
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int Int, long idl) {
+            // Get the username
             TextView usernameView = view.findViewById(R.id.usernameView);
             String username = usernameView.getText().toString();
 
-            for (int i = 0; i < allusers.size(); i++){
+            // Loop trough all of the users to get the user matching the username and get his information
+            for (int i = 0; i < allusers.size(); i++) {
                 if (allusers.get(i).username.toString().equals(username)){
                     id = allusers.get(i).id.toString();
                     email = allusers.get(i).email.toString();
@@ -140,13 +138,21 @@ public class UserDatabase extends AppCompatActivity {
                 }
             }
 
-            Intent intent = new Intent(UserDatabase.this, UserInformation.class);
-            intent.putExtra("username", username);
-            intent.putExtra("id", id);
-            intent.putExtra("email", email);
-            intent.putExtra("favorites", favorites);
-            startActivity(intent);
+            // Navigate user
+            goToDetails(username);
         }
+    }
+
+    /**
+     * Puts information in intent and navigates the user to the page with details about the user
+     */
+    public void goToDetails(String username) {
+        Intent intent = new Intent(UserDatabase.this, UserInformation.class);
+        intent.putExtra("username", username);
+        intent.putExtra("id", id);
+        intent.putExtra("email", email);
+        intent.putExtra("favorites", favorites);
+        startActivity(intent);
     }
 
 }

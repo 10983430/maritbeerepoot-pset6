@@ -26,4 +26,7 @@
     <string name="CharacterSeries">Character series</string>
     <string name="CharacterStories">Character stories</string>
     <string name="noavailable">Not available</string>
+    <string name="usernameplaceholder">Username = </string>
+    <string name="useridplaceholder">Userid = </string>
+    <string name="useremailplaceholder">Email = </string>
 </resources>

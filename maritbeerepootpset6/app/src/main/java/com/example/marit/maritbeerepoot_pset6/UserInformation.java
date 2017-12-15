@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- *
+ * Converts the user information to the UI
  */
 public class UserInformation extends AppCompatActivity {
     public ArrayList<MarvelCharacters> usersFavorites = new ArrayList<>();
@@ -34,8 +34,8 @@ public class UserInformation extends AppCompatActivity {
         // Display the username and the userid
         TextView usernameholder = findViewById(R.id.UsernameView);
         TextView useridholder = findViewById(R.id.UseridView);
-        usernameholder.setText("Username = " + username);
-        useridholder.setText("Userid = " + id);
+        usernameholder.setText(getString(R.string.usernameplaceholder) + username);
+        useridholder.setText(getString(R.string.useridplaceholder) + id);
 
 
         // Try to make a listview by getting the favorites
@@ -69,7 +69,7 @@ public class UserInformation extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_characterdatabase:
                 Intent intentCD = new Intent(this, CharacterDatabase.class);
@@ -87,6 +87,9 @@ public class UserInformation extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Creates listview from arraylist
+     */
     public void makeListView(ArrayList<MarvelCharacters> item) {
         // Link the listview and adapter
         ListView view = findViewById(R.id.list_viewfavorites);

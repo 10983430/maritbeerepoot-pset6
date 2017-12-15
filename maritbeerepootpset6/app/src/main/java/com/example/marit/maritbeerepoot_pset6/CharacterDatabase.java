@@ -54,6 +54,9 @@ public class CharacterDatabase extends AppCompatActivity {
     String url_part2;
     String url;
 
+    /**
+     * Creates a listview out of character information from the API
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

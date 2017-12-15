@@ -22,6 +22,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import java.util.HashMap;
 
+/**
+ * Converts the parceable to UI and makes it possible for a user to add character to favorites
+ */
 public class CharInfo extends AppCompatActivity {
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseDatabase fbdb;
@@ -36,8 +39,7 @@ public class CharInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_char_info);
 
-
-        // Get ID from intent
+        // Get parceable from intent
         Intent intent = getIntent();
         id = intent.getStringExtra("ID");
         character = getIntent().getExtras().getParcelable("Character");
@@ -82,16 +84,9 @@ public class CharInfo extends AppCompatActivity {
         return true;
     }
 
-    protected void onSaveInstanceState (Bundle charinfo) {
-        super.onSaveInstanceState(charinfo);
-        charinfo.putParcelable("character", character);
-    }
-
-    protected void onRestoreInstanceState (Bundle charinfo) {
-        super.onRestoreInstanceState(charinfo);
-        character = charinfo.getParcelable("character");
-    }
-
+    /**
+     * Puts character information in UI
+     */
     public void setTextViews() {
         // Set the charactername
         TextView name = findViewById(R.id.infoName);
@@ -104,8 +99,10 @@ public class CharInfo extends AppCompatActivity {
         setStories();
     }
 
+    /**
+     * When description is available, set description
+     */
     public void setDescription() {
-        // Set description
         TextView description = findViewById(R.id.infoDescription);
         if (character.getDescription().length() > 0) {
             description.setText(character.getDescription());
@@ -115,6 +112,9 @@ public class CharInfo extends AppCompatActivity {
         }
     }
 
+    /**
+     * When comics are available, set comics
+     */
     public void setComics() {
         TextView comics = findViewById(R.id.infoComics);
         if (character.getComics().size() > 0 ) {
@@ -125,6 +125,9 @@ public class CharInfo extends AppCompatActivity {
         }
     }
 
+    /**
+     * When series are available, set series
+     */
     public void setSeries() {
         TextView series = findViewById(R.id.infoSeries);
         if (character.getSeries().size() > 0 ) {
@@ -135,6 +138,9 @@ public class CharInfo extends AppCompatActivity {
         }
     }
 
+    /**
+     * When stories are available, set stories
+     */
     public void setStories() {
         TextView stories = findViewById(R.id.infoStories);
         if (character.getSeries().size() > 0) {
@@ -145,13 +151,18 @@ public class CharInfo extends AppCompatActivity {
         }
     }
 
+    /**
+     * Set imageview with picasso
+     */
     public void setImageView(){
         ImageView characterpic = findViewById(R.id.CharacterPic);
         String url = character.getSquareLargeImageURL();
         Picasso.with(getApplicationContext()).load(url).into(characterpic);
     }
 
-
+    /**
+     * Update the favorites in Firebase
+     */
     public void updateFavorites(String userid, HashMap favorites) {
         // Get to the right place in the database
         fbdb = FirebaseDatabase.getInstance();
@@ -180,9 +191,12 @@ public class CharInfo extends AppCompatActivity {
                         // Get the hashtable with the already added favorites
                         DataSnapshot value =  dataSnapshot.child("favorites");
                         HashMap<String, MarvelCharacters> favorites = (HashMap<String, MarvelCharacters>) value.getValue();
+
+                        // If there are no favorites yet, create a hashmap to store them
                         if (favorites == null){
-                            favorites = new HashMap<String, MarvelCharacters>();
+                            favorites = new HashMap<>();
                         }
+
                         // Update the values of hashtable favorites
                         favorites.put(charid, character);
 
